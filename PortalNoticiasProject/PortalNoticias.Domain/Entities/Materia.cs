@@ -15,7 +15,7 @@ namespace PortalNoticias.Domain.Entities
         [Column("TITULO")]
         public string Titulo { get; set; }
 
-        [Column("DATA_PUBLICACAO")]
+        [Column("DATA_CADASTRO")]
         public DateTime DataCadastro { get; set; }
 
         [Column("ID_RESPONSAVEL")]
