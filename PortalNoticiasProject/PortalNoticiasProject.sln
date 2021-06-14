@@ -13,19 +13,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Domain", "3-Domain", "{4A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-Infra", "4-Infra", "{D7999930-D310-436F-A08B-81AB10141F75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortalNoticias.Test", "PortalNoticias.Test\PortalNoticias.Test.csproj", "{0C90F6FC-58AF-4C8B-9FF8-866C9E4CEF21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalNoticias.Test", "PortalNoticias.Test\PortalNoticias.Test.csproj", "{0C90F6FC-58AF-4C8B-9FF8-866C9E4CEF21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortalNoticias.Application", "PortalNoticias.Application\PortalNoticias.Application.csproj", "{FDB19201-F13C-483D-AF03-B25F5EB49C06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalNoticias.Application", "PortalNoticias.Application\PortalNoticias.Application.csproj", "{FDB19201-F13C-483D-AF03-B25F5EB49C06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortalNoticias.Domain", "PortalNoticias.Domain\PortalNoticias.Domain.csproj", "{AE53A21B-4CDB-4FF8-A424-2D509AF8554B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalNoticias.Domain", "PortalNoticias.Domain\PortalNoticias.Domain.csproj", "{AE53A21B-4CDB-4FF8-A424-2D509AF8554B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1-Data", "4.1-Data", "{9C839E02-4544-4B51-B487-7E145B8FB116}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortalNoticias.Infra.Data", "PortalNoticias.Infra.Data\PortalNoticias.Infra.Data.csproj", "{9BC9A2C8-DB55-463D-B98A-3EAC00CF9C6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalNoticias.Infra.Data", "PortalNoticias.Infra.Data\PortalNoticias.Infra.Data.csproj", "{9BC9A2C8-DB55-463D-B98A-3EAC00CF9C6E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.2-CrossCutting", "4.2-CrossCutting", "{9F766FBC-14D7-4C53-9D79-353185030111}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortalNoticias.Api", "PortalNoticias.Api\PortalNoticias.Api.csproj", "{797F3F13-BC18-40ED-9541-1ECF9B749507}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalNoticias.Api", "PortalNoticias.Api\PortalNoticias.Api.csproj", "{797F3F13-BC18-40ED-9541-1ECF9B749507}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalNoticias.Infra.CrossCutting.IoC", "PortalNoticias.Infra.CrossCutting.IoC\PortalNoticias.Infra.CrossCutting.IoC.csproj", "{08D41DC5-879D-4D0D-8B7F-6515A096F688}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{797F3F13-BC18-40ED-9541-1ECF9B749507}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{797F3F13-BC18-40ED-9541-1ECF9B749507}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{797F3F13-BC18-40ED-9541-1ECF9B749507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08D41DC5-879D-4D0D-8B7F-6515A096F688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08D41DC5-879D-4D0D-8B7F-6515A096F688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08D41DC5-879D-4D0D-8B7F-6515A096F688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08D41DC5-879D-4D0D-8B7F-6515A096F688}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{9BC9A2C8-DB55-463D-B98A-3EAC00CF9C6E} = {9C839E02-4544-4B51-B487-7E145B8FB116}
 		{9F766FBC-14D7-4C53-9D79-353185030111} = {D7999930-D310-436F-A08B-81AB10141F75}
 		{797F3F13-BC18-40ED-9541-1ECF9B749507} = {AAA8C570-A68B-4197-823F-03AC13A170CF}
+		{08D41DC5-879D-4D0D-8B7F-6515A096F688} = {9F766FBC-14D7-4C53-9D79-353185030111}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D51C52BE-E015-4367-B7A6-30A6479123EA}
