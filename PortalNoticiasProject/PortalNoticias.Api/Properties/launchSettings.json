@@ -14,8 +14,7 @@
       "launchBrowser": true,
       "launchUrl": "api/usuario",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "CaminhoBanco": "Server=localhost;User Id=Ribeiro;Password=kvhqj;Database=portalnoticiabdsmysql;"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "PortalNoticias.Api": {
