@@ -11,4 +11,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PortalNoticias.Infra.Data\PortalNoticias.Infra.Data.csproj" />
+  </ItemGroup>
+
 </Project>
