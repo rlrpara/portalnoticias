@@ -10,11 +10,11 @@ namespace PortalNoticias.Api.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private readonly IBaseService _baseService;
+        private readonly IUsuarioService _usuarioService;
 
-        public UsuarioController(IBaseService baseService)
+        public UsuarioController(IUsuarioService usuarioService)
         {
-            _baseService = baseService;
+            _usuarioService = usuarioService;
         }
 
         [HttpGet]
@@ -22,7 +22,7 @@ namespace PortalNoticias.Api.Controllers
         {
             try
             {
-                return Ok(_baseService.BuscarTodosPorQuery<Usuario>());
+                return Ok(_usuarioService.GetAll());
             }
             catch (Exception ex)
             {
@@ -30,77 +30,77 @@ namespace PortalNoticias.Api.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetId(int id)
-        {
-            try
-            {
-                return Ok(_baseService.BuscarTodosPorId<Usuario>(id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.ToString());
-            }
-        }
+        //[HttpGet("{id}")]
+        //public IActionResult GetId(int id)
+        //{
+        //    try
+        //    {
+        //        return Ok(_baseService.BuscarTodosPorId<Usuario>(id));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.ToString());
+        //    }
+        //}
 
-        [HttpPost]
-        public IActionResult Post([FromBody] Usuario entidade)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var resultado = _baseService.Adicionar(entidade);
-                    return Created($"api/{RouteData.Values.First().Value}", resultado);
-                }
+        //[HttpPost]
+        //public IActionResult Post([FromBody] Usuario entidade)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            var resultado = _baseService.Adicionar(entidade);
+        //            return Created($"api/{RouteData.Values.First().Value}", resultado);
+        //        }
 
-                return BadRequest("Classe inválida");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.ToString());
-            }
-        }
+        //        return BadRequest("Classe inválida");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.ToString());
+        //    }
+        //}
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Usuario entidade)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    if (_baseService.BuscarTodosPorId<Usuario>(id) == null)
-                        return NotFound();
+        //[HttpPut("{id}")]
+        //public IActionResult Put(int id, [FromBody] Usuario entidade)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            if (_baseService.BuscarTodosPorId<Usuario>(id) == null)
+        //                return NotFound();
 
-                    _baseService.Atualizar(id, entidade);
+        //            _baseService.Atualizar(id, entidade);
 
-                    return Ok(_baseService.BuscarTodosPorId<Usuario>(id));
-                }
+        //            return Ok(_baseService.BuscarTodosPorId<Usuario>(id));
+        //        }
 
-                return BadRequest("Classe inválida");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.ToString());
-            }
-        }
+        //        return BadRequest("Classe inválida");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.ToString());
+        //    }
+        //}
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                if (_baseService.BuscarTodosPorId<Usuario>(id) == null)
-                    return NotFound();
+        //[HttpDelete("{id}")]
+        //public IActionResult Delete(int id)
+        //{
+        //    try
+        //    {
+        //        if (_baseService.BuscarTodosPorId<Usuario>(id) == null)
+        //            return NotFound();
 
-                _baseService.Excluir<Usuario>(id);
+        //        _baseService.Excluir<Usuario>(id);
 
-                return Ok(id);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.ToString());
-            }
-        }
+        //        return Ok(id);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.ToString());
+        //    }
+        //}
     }
 }

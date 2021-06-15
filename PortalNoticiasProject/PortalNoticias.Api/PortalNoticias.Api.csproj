@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetEnv" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PortalNoticias.Application\PortalNoticias.Application.csproj" />
     <ProjectReference Include="..\PortalNoticias.Infra.CrossCutting.IoC\PortalNoticias.Infra.CrossCutting.IoC.csproj" />
   </ItemGroup>
