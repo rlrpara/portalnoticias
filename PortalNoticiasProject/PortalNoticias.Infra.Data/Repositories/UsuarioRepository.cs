@@ -2,10 +2,10 @@
 
 namespace PortalNoticias.Infra.Data.Repositories
 {
-    public class UsuarioRepositorio : BaseRepository
+    public class UsuarioRepository : BaseRepository
     {
         private readonly IBaseRepository _baseRepository;
-        public UsuarioRepositorio(IBaseRepository baseRepository)
+        public UsuarioRepository(IBaseRepository baseRepository)
         {
             _baseRepository = baseRepository;
         }

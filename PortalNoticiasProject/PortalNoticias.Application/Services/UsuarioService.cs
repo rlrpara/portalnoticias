@@ -1,6 +1,8 @@
-﻿using PortalNoticias.Application.ViewModels;
+﻿using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PortalNoticias.Application.Services
 {
@@ -11,9 +13,16 @@ namespace PortalNoticias.Application.Services
         {
         }
 
-        public List<UsuarioViewModel> GetAll()
+        public List<Usuario> GetAll()
         {
-            return null;
+            try
+            {
+                return _baseRepository.BuscarTodosPorQuery<Usuario>("").Where(x => !x.IsDelete).ToList();
+            }
+            catch (Exception Ex)
+            {
+                throw;
+            }
         }
     }
 }

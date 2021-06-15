@@ -1,10 +1,10 @@
-﻿using PortalNoticias.Application.ViewModels;
+﻿using PortalNoticias.Domain.Entities;
 using System.Collections.Generic;
 
 namespace PortalNoticias.Application.Interfaces
 {
     public interface IUsuarioService : IBaseService
     {
-        List<UsuarioViewModel> GetAll();
+        List<Usuario> GetAll();
     }
 }

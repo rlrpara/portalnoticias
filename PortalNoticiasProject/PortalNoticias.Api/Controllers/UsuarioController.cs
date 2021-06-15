@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PortalNoticias.Application.Interfaces;
-using PortalNoticias.Domain.Entities;
 using System;
-using System.Linq;
 
 namespace PortalNoticias.Api.Controllers
 {
