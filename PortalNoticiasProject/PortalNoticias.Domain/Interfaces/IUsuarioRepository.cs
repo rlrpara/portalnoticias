@@ -1,6 +1,8 @@
-﻿namespace PortalNoticias.Domain.Interfaces
+﻿using PortalNoticias.Domain.Entities;
+
+namespace PortalNoticias.Domain.Interfaces
 {
-    public interface IUsuarioRepository : IBaseRepository
+    public interface IUsuarioRepository : IBaseRepository<Usuario>
     {
     }
 }

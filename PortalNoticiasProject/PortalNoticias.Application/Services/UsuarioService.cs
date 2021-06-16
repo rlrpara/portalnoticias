@@ -1,28 +1,22 @@
-﻿using PortalNoticias.Domain.Entities;
+﻿using PortalNoticias.Application.Interfaces;
+using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PortalNoticias.Application.Services
 {
-    public class UsuarioService : BaseService
+    public class UsuarioService : BaseService<Usuario>, IUsuarioService
     {
-        public UsuarioService(IBaseRepository repositorio):
-            base(repositorio)
+        private IUsuarioRepository _usuarioRepository;
+        public UsuarioService(IUsuarioRepository usuarioRepository)
+            : base(usuarioRepository)
         {
+            _usuarioRepository = usuarioRepository;
         }
 
         public List<Usuario> GetAll()
         {
-            try
-            {
-                return _baseRepository.BuscarTodosPorQuery<Usuario>("").Where(x => !x.IsDelete).ToList();
-            }
-            catch (Exception Ex)
-            {
-                throw;
-            }
+            throw new System.NotImplementedException();
         }
     }
 }

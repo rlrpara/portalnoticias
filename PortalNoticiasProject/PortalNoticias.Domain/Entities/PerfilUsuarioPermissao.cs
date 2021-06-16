@@ -3,7 +3,7 @@
 namespace PortalNoticias.Domain.Entities
 {
     [Table("PERFIL_USUARIO_PERMISSAO")]
-    public class PerilUsuarioPermissao
+    public class PerfilUsuarioPermissao
     {
         [Column("ID")]
         public int Codigo { get; set; }

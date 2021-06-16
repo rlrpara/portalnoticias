@@ -1,24 +1,25 @@
 ﻿using Dapper;
 using PortalNoticias.Application.Interfaces;
 using PortalNoticias.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace PortalNoticias.Application.Services
 {
-    public class BaseService : IBaseService
+    public class BaseService<T> : IDisposable, IBaseService<T> where T : class
     {
-        public readonly IBaseRepository _baseRepository;
+        public readonly IBaseRepository<T> _repository;
 
-        public BaseService(IBaseRepository repositorio)
+        public BaseService(IBaseRepository<T> repository)
         {
-            _baseRepository = repositorio;
+            _repository = repository;
         }
 
-        public int Adicionar<T>(T entidade) where T : class
+        public int Adicionar(T entidade)
         {
             try
             {
-                return _baseRepository.Adicionar(entidade);
+                return _repository.Adicionar(entidade);
             }
             catch
             {
@@ -26,11 +27,11 @@ namespace PortalNoticias.Application.Services
             }
         }
 
-        public int Atualizar<T>(int id, T entidade) where T : class
+        public int Atualizar(int id, T entidade)
         {
             try
             {
-                return _baseRepository.Atualizar(id, entidade);
+                return _repository.Atualizar(id, entidade);
             }
             catch
             {
@@ -38,24 +39,11 @@ namespace PortalNoticias.Application.Services
             }
         }
 
-        public long BuscaMaxItemAsync<T>(string campo, string sqlWhere) where T : class
+        public long BuscaMaxItem(string campo, string sqlWhere)
         {
             try
             {
-                return _baseRepository.BuscaMaxItemAsync<T>(campo, sqlWhere);
-            }
-            catch
-            {
-                return default(dynamic);
-            }
-
-        }
-
-        public T BuscarComJoins<T>(string sqlWhere = null, string join = null, params string[] fields)
-        {
-            try
-            {
-                return _baseRepository.BuscarComJoins<T>(sqlWhere, join, fields);
+                return _repository.BuscaMaxItem(campo, sqlWhere);
             }
             catch
             {
@@ -63,11 +51,11 @@ namespace PortalNoticias.Application.Services
             }
         }
 
-        public T BuscarPorQuery<T>(string query)
+        public T BuscarComJoins(string sqlWhere = null, string join = null, params string[] fields)
         {
             try
             {
-                return _baseRepository.BuscarPorQuery<T>(query);
+                return _repository.BuscarComJoins(sqlWhere, join, fields);
             }
             catch
             {
@@ -75,11 +63,11 @@ namespace PortalNoticias.Application.Services
             }
         }
 
-        public T BuscarTodosPorId<T>(int id) where T : class
+        public T BuscarPorQuery(string query)
         {
             try
             {
-                return _baseRepository.BuscarTodosPorId<T>(id);
+                return _repository.BuscarPorQuery(query);
             }
             catch
             {
@@ -87,11 +75,11 @@ namespace PortalNoticias.Application.Services
             }
         }
 
-        public IEnumerable<T> BuscarTodosPorQuery<T>(string query = "") where T : class
+        public T BuscarTodosPorId(int id)
         {
             try
             {
-                return _baseRepository.BuscarTodosPorQuery<T>(query);
+                return _repository.BuscarTodosPorId(id);
             }
             catch
             {
@@ -99,11 +87,11 @@ namespace PortalNoticias.Application.Services
             }
         }
 
-        public IEnumerable<T> BuscarTodosPorQueryGerador<T>(string sqlWhere = "") where T : class
+        public IEnumerable<T> BuscarTodosPorQuery(string query = "")
         {
             try
             {
-                return _baseRepository.BuscarTodosPorQueryGerador<T>(sqlWhere);
+                return _repository.BuscarTodosPorQuery(query);
             }
             catch
             {
@@ -111,11 +99,23 @@ namespace PortalNoticias.Application.Services
             }
         }
 
-        public int Excluir<T>(int id) where T : class
+        public IEnumerable<T> BuscarTodosPorQueryGerador(string sqlWhere = "")
         {
             try
             {
-                return _baseRepository.Excluir<T>(id);
+                return _repository.BuscarTodosPorQueryGerador(sqlWhere);
+            }
+            catch
+            {
+                return default(dynamic);
+            }
+        }
+
+        public int Excluir(int id)
+        {
+            try
+            {
+                return _repository.Excluir(id);
             }
             catch
             {
@@ -125,12 +125,17 @@ namespace PortalNoticias.Application.Services
 
         public void ExecutarComando(string comandoSql)
         {
-            _baseRepository.ExecutarComando(comandoSql);
+            _repository.ExecutarComando(comandoSql);
         }
 
         public void ExecutarComandoDireto(CommandDefinition command)
         {
-            _baseRepository.ExecutarComandoDireto(command);
+            _repository.ExecutarComandoDireto(command);
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

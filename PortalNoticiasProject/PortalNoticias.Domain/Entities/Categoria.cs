@@ -3,7 +3,7 @@
 namespace PortalNoticias.Domain.Entities
 {
     [Table("Categoria")]
-    class Categoria
+    public class Categoria
     {
         [Column("ID")]
         public int Codigo { get; set; }

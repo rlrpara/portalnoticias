@@ -2,7 +2,7 @@
 
 namespace PortalNoticias.Domain.Interfaces
 {
-    public interface IMunicipioRepository : IBaseRepository<Municipio>
+    public interface IPerfilUsuarioRepository : IBaseRepository<PerfilUsuario>
     {
     }
 }
