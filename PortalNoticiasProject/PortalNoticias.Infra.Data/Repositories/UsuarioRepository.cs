@@ -3,10 +3,10 @@ using PortalNoticias.Domain.Interfaces;
 
 namespace PortalNoticias.Infra.Data.Repositories
 {
-    public class UsuarioRepository : BaseRepository<Usuario>
+    public class UsuarioRepository : BaseRepository<Usuario>, IUsuarioRepository
     {
-        private readonly IBaseRepository<Usuario> _baseRepository;
-        public UsuarioRepository(IBaseRepository<Usuario> baseRepository)
+        private readonly BaseRepository<Usuario> _baseRepository;
+        public UsuarioRepository(BaseRepository<Usuario> baseRepository)
         {
             _baseRepository = baseRepository;
         }

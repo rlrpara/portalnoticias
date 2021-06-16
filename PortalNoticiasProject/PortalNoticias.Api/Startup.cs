@@ -18,9 +18,9 @@ namespace PortalNoticias.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
-            NativeInjector.RegisterServices(services);
+            NativeInjector.RegisterServices(services, Configuration);
+            services.AddMemoryCache();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
