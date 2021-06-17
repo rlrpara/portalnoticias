@@ -95,5 +95,18 @@ namespace PortalNoticias.Api.Controllers
                 return BadRequest(ex.ToString());
             }
         }
+
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody] UserAuthenticateRequestViewModel entidade)
+        {
+            try
+            {
+                return Ok(_usuarioService.Authenticate(entidade));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+        }
     }
 }

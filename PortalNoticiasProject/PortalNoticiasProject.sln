@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortalNoticias.Infra.CrossC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalNoticias.Infra.CrossCutting.Swagger", "PortalNoticias.Infra.CrossCutting.Swagger\PortalNoticias.Infra.CrossCutting.Swagger.csproj", "{EFB28F39-6ECF-4F5A-A11A-6E810E243EB6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalNoticias.Infra.CrossCutting.Auth", "PortalNoticias.Infra.CrossCutting.Auth\PortalNoticias.Infra.CrossCutting.Auth.csproj", "{A80EF340-3B85-4F73-ABBF-336F3D633AE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{EFB28F39-6ECF-4F5A-A11A-6E810E243EB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFB28F39-6ECF-4F5A-A11A-6E810E243EB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFB28F39-6ECF-4F5A-A11A-6E810E243EB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A80EF340-3B85-4F73-ABBF-336F3D633AE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A80EF340-3B85-4F73-ABBF-336F3D633AE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A80EF340-3B85-4F73-ABBF-336F3D633AE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A80EF340-3B85-4F73-ABBF-336F3D633AE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +92,7 @@ Global
 		{08D41DC5-879D-4D0D-8B7F-6515A096F688} = {9F766FBC-14D7-4C53-9D79-353185030111}
 		{A842DFE5-2FDE-45E4-A8E9-2633F3B06367} = {9F766FBC-14D7-4C53-9D79-353185030111}
 		{EFB28F39-6ECF-4F5A-A11A-6E810E243EB6} = {9F766FBC-14D7-4C53-9D79-353185030111}
+		{A80EF340-3B85-4F73-ABBF-336F3D633AE1} = {9F766FBC-14D7-4C53-9D79-353185030111}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D51C52BE-E015-4367-B7A6-30A6479123EA}

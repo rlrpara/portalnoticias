@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PortalNoticias.Application\PortalNoticias.Services.csproj" />
+    <ProjectReference Include="..\PortalNoticias.Infra.CrossCutting.Auth\PortalNoticias.Infra.CrossCutting.Auth.csproj" />
     <ProjectReference Include="..\PortalNoticias.Infra.CrossCutting.IoC\PortalNoticias.Infra.CrossCutting.IoC.csproj" />
     <ProjectReference Include="..\PortalNoticias.Infra.CrossCutting.Swagger\PortalNoticias.Infra.CrossCutting.Swagger.csproj" />
   </ItemGroup>

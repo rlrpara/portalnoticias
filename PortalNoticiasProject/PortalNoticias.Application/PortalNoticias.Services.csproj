@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PortalNoticias.Infra.CrossCutting.Auth\PortalNoticias.Infra.CrossCutting.Auth.csproj" />
     <ProjectReference Include="..\PortalNoticias.Infra.Data\PortalNoticias.Infra.Data.csproj" />
     <ProjectReference Include="..\PortalNoticias.Infra.Util\PortalNoticias.Infra.CrossCutting.Util.csproj" />
   </ItemGroup>

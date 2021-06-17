@@ -10,5 +10,6 @@ namespace PortalNoticias.Services.Interfaces
         bool Post(UsuarioViewModel usuarioViewModel);
         bool Put(UsuarioViewModel usuarioViewModel);
         bool Delete(int id);
+        UserAuthenticateResponseViewModel Authenticate(UserAuthenticateRequestViewModel user);
     }
 }

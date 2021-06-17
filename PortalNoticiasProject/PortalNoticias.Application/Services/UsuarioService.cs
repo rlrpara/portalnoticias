@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
+using PortalNoticias.Infra.CrossCutting.Auth.Services;
 using PortalNoticias.Services.Interfaces;
 using PortalNoticias.Services.ViewModels;
 using System.Collections.Generic;
@@ -99,6 +100,13 @@ namespace PortalNoticias.Services.Services
             {
                 return default(dynamic);
             }
+        }
+
+        public UserAuthenticateResponseViewModel Authenticate(UserAuthenticateRequestViewModel user)
+        {
+            var usuario = _usuarioRepository.BuscarTodosPorQueryGerador<Usuario>("") .Where(x => !x.IsDelete && x.Email.ToLower().Contains(user.Email.ToLower())).FirstOrDefault();
+
+            return (usuario == null ? null : new UserAuthenticateResponseViewModel(_mapper.Map<UsuarioViewModel>(usuario), TokenService.GenerateToken(usuario)));
         }
 
         #endregion
