@@ -7,5 +7,8 @@ namespace PortalNoticias.Services.Interfaces
     {
         List<UsuarioViewModel> GetAll();
         UsuarioViewModel GetById(int id);
+        bool Post(UsuarioViewModel usuarioViewModel);
+        bool Put(UsuarioViewModel usuarioViewModel);
+        bool Delete(int id);
     }
 }

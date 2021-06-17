@@ -51,7 +51,49 @@ namespace PortalNoticias.Services.Services
         {
             try
             {
-                return RetornaUsuarioViewModel(_usuarioRepository.BuscarTodosPorId<Usuario>(id));
+                return (id == 0 ? null : _mapper.Map<UsuarioViewModel>(_usuarioRepository.BuscarTodosPorId<Usuario>(id)));
+            }
+            catch
+            {
+                return default(dynamic);
+            }
+        }
+
+        public bool Post(UsuarioViewModel usuarioViewModel)
+        {
+            try
+            {
+                return (_usuarioRepository.Adicionar(_mapper.Map<Usuario>(usuarioViewModel)) > 0);
+            }
+            catch
+            {
+                return default(dynamic);
+            }
+        }
+
+        public bool Put(UsuarioViewModel usuarioViewModel)
+        {
+            try
+            {
+                if(_usuarioRepository.BuscarTodosPorId<Usuario>(usuarioViewModel.Codigo) != null)
+                    return (_usuarioRepository.Atualizar(usuarioViewModel.Codigo, _mapper.Map<Usuario>(usuarioViewModel)) > 0);
+
+                return false;
+            }
+            catch
+            {
+                return default(dynamic);
+            }
+        }
+
+        public bool Delete(int id)
+        {
+            try
+            {
+                if (_usuarioRepository.BuscarTodosPorId<Usuario>(id) != null)
+                    return (_usuarioRepository.Excluir<Usuario>(id) > 0);
+
+                return false;
             }
             catch
             {

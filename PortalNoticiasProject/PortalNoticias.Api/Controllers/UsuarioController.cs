@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PortalNoticias.Domain.Entities;
 using PortalNoticias.Services.Interfaces;
+using PortalNoticias.Services.ViewModels;
 using System;
 using System.Linq;
 
@@ -44,15 +44,12 @@ namespace PortalNoticias.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Usuario entidade)
+        public IActionResult Post([FromBody] UsuarioViewModel entidade)
         {
             try
             {
                 if (ModelState.IsValid)
-                {
-                    var resultado = _usuarioService.Adicionar(entidade);
-                    return Created($"api/{RouteData.Values.First().Value}", resultado);
-                }
+                    return Created($"api/{RouteData.Values.First().Value}", _usuarioService.Post(entidade));
 
                 return BadRequest("Classe inválida");
             }
@@ -62,19 +59,17 @@ namespace PortalNoticias.Api.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Usuario entidade)
+        [HttpPut("")]
+        public IActionResult Put([FromBody] UsuarioViewModel entidade)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (_usuarioService.BuscarTodosPorId<Usuario>(id) == null)
+                    if (_usuarioService.GetById(entidade.Codigo) == null)
                         return NotFound();
 
-                    _usuarioService.Atualizar(id, entidade);
-
-                    return Ok(id);
+                    return Ok(_usuarioService.Put(entidade));
                 }
 
                 return BadRequest("Classe inválida");
@@ -90,12 +85,10 @@ namespace PortalNoticias.Api.Controllers
         {
             try
             {
-                if (_usuarioService.BuscarTodosPorId<Usuario>(id) == null)
+                if (_usuarioService.GetById(id) == null)
                     return NotFound();
 
-                _usuarioService.Excluir<Usuario>(id);
-
-                return Ok(id);
+                return Ok(_usuarioService.Delete(id));
             }
             catch (Exception ex)
             {
