@@ -16,6 +16,6 @@ namespace PortalNoticias.Domain.Entities
         public string Senha { get; set; }
 
         [Column("ID_PERFIL", Order = 5)]
-        public string CodigoPerfil { get; set; }
+        public int CodigoPerfil { get; set; }
     }
 }

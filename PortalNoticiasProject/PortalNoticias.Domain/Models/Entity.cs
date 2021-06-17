@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PortalNoticias.Domain.Models
 {
     public class Entity
     {
+        [Key]
         [Column("ID", Order = 1)]
         public int Codigo { get; set; }
 
