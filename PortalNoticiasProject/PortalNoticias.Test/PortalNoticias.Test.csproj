@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PortalNoticias.Application\PortalNoticias.Application.csproj" />
+    <ProjectReference Include="..\PortalNoticias.Application\PortalNoticias.Services.csproj" />
     <ProjectReference Include="..\PortalNoticias.Domain\PortalNoticias.Domain.csproj" />
     <ProjectReference Include="..\PortalNoticias.Infra.Data\PortalNoticias.Infra.Data.csproj" />
   </ItemGroup>

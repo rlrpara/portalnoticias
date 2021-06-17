@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AutoMapper\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PortalNoticias.Infra.Data\PortalNoticias.Infra.Data.csproj" />
+    <ProjectReference Include="..\PortalNoticias.Infra.Util\PortalNoticias.Infra.Util.csproj" />
   </ItemGroup>
 
 </Project>

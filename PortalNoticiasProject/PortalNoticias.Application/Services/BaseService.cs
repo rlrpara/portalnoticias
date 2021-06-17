@@ -1,9 +1,9 @@
 ﻿using Dapper;
-using PortalNoticias.Application.Interfaces;
+using PortalNoticias.Services.Interfaces;
 using PortalNoticias.Domain.Interfaces;
 using System.Collections.Generic;
 
-namespace PortalNoticias.Application.Services
+namespace PortalNoticias.Services.Services
 {
     public class BaseService : IBaseService
     {

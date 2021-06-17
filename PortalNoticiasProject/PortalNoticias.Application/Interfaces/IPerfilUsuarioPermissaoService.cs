@@ -1,4 +1,4 @@
-﻿namespace PortalNoticias.Application.Interfaces
+﻿namespace PortalNoticias.Services.Interfaces
 {
     public interface IPerfilUsuarioPermissaoService : IBaseService
     {

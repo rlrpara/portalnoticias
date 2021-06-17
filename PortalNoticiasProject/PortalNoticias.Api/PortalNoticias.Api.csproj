@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PortalNoticias.Application\PortalNoticias.Application.csproj" />
+    <ProjectReference Include="..\PortalNoticias.Application\PortalNoticias.Services.csproj" />
     <ProjectReference Include="..\PortalNoticias.Infra.CrossCutting.IoC\PortalNoticias.Infra.CrossCutting.IoC.csproj" />
   </ItemGroup>
 

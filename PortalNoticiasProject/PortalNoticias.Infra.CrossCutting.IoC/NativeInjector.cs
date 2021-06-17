@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PortalNoticias.Application.Interfaces;
-using PortalNoticias.Application.Services;
+using PortalNoticias.Services.Interfaces;
+using PortalNoticias.Services.Services;
 using PortalNoticias.Domain.Interfaces;
 using PortalNoticias.Infra.Data.Repositories;
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PortalNoticias.Application.Interfaces;
+using PortalNoticias.Services.Interfaces;
 using System;
 
 namespace PortalNoticias.Api.Controllers

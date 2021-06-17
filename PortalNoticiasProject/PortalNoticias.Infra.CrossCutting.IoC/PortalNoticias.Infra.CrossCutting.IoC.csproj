@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PortalNoticias.Application\PortalNoticias.Application.csproj" />
+    <ProjectReference Include="..\PortalNoticias.Application\PortalNoticias.Services.csproj" />
   </ItemGroup>
 
 </Project>

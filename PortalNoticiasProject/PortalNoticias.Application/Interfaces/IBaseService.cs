@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using System.Collections.Generic;
 
-namespace PortalNoticias.Application.Interfaces
+namespace PortalNoticias.Services.Interfaces
 {
     public interface IBaseService
     {

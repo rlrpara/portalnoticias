@@ -1,7 +1,7 @@
-﻿using PortalNoticias.Application.Interfaces;
+﻿using PortalNoticias.Services.Interfaces;
 using PortalNoticias.Domain.Interfaces;
 
-namespace PortalNoticias.Application.Services
+namespace PortalNoticias.Services.Services
 {
     public class PerfilUsuarioService : BaseService, IPerfilUsuarioService
     {
