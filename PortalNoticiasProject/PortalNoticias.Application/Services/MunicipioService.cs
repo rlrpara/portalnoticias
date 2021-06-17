@@ -1,10 +1,9 @@
 ﻿using PortalNoticias.Application.Interfaces;
-using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
 
 namespace PortalNoticias.Application.Services
 {
-    public class MunicipioService : BaseService<Municipio>, IMunicipioService
+    public class MunicipioService : BaseService, IMunicipioService
     {
         private readonly IMunicipioRepository _municipioRepository;
 

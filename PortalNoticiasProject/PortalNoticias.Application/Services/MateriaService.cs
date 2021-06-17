@@ -1,10 +1,9 @@
 ﻿using PortalNoticias.Application.Interfaces;
-using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
 
 namespace PortalNoticias.Application.Services
 {
-    public class MateriaService : BaseService<Materia>, IMateriaService
+    public class MateriaService : BaseService, IMateriaService
     {
         private readonly IMateriaRepository _materiaRepository;
 

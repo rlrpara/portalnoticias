@@ -1,141 +1,124 @@
 ﻿using Dapper;
 using PortalNoticias.Application.Interfaces;
 using PortalNoticias.Domain.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace PortalNoticias.Application.Services
 {
-    public class BaseService<T> : IDisposable, IBaseService<T> where T : class
+    public class BaseService : IBaseService
     {
-        public readonly IBaseRepository<T> _repository;
-
-        public BaseService(IBaseRepository<T> repository)
+        public readonly IBaseRepository _baseRepository;
+        public BaseService(IBaseRepository repositorio)
         {
-            _repository = repository;
+            _baseRepository = repositorio;
         }
-
-        public int Adicionar(T entidade)
+        public int Adicionar<T>(T entidade) where T : class
         {
             try
             {
-                return _repository.Adicionar(entidade);
+                return _baseRepository.Adicionar(entidade);
             }
             catch
             {
                 return default(dynamic);
             }
         }
-
-        public int Atualizar(int id, T entidade)
+        public int Atualizar<T>(int id, T entidade) where T : class
         {
             try
             {
-                return _repository.Atualizar(id, entidade);
+                return _baseRepository.Atualizar(id, entidade);
             }
             catch
             {
                 return default(dynamic);
             }
         }
-
-        public long BuscaMaxItem(string campo, string sqlWhere)
+        public long BuscaMaxItemAsync<T>(string campo, string sqlWhere) where T : class
         {
             try
             {
-                return _repository.BuscaMaxItem(campo, sqlWhere);
+                return _baseRepository.BuscaMaxItemAsync<T>(campo, sqlWhere);
+            }
+            catch
+            {
+                return default(dynamic);
+            }
+
+        }
+        public T BuscarComJoins<T>(string sqlWhere = null, string join = null, params string[] fields)
+        {
+            try
+            {
+                return _baseRepository.BuscarComJoins<T>(sqlWhere, join, fields);
             }
             catch
             {
                 return default(dynamic);
             }
         }
-
-        public T BuscarComJoins(string sqlWhere = null, string join = null, params string[] fields)
+        public T BuscarPorQuery<T>(string query)
         {
             try
             {
-                return _repository.BuscarComJoins(sqlWhere, join, fields);
+                return _baseRepository.BuscarPorQuery<T>(query);
             }
             catch
             {
                 return default(dynamic);
             }
         }
-
-        public T BuscarPorQuery(string query)
+        public T BuscarTodosPorId<T>(int id) where T : class
         {
             try
             {
-                return _repository.BuscarPorQuery(query);
+                return _baseRepository.BuscarTodosPorId<T>(id);
             }
             catch
             {
                 return default(dynamic);
             }
         }
-
-        public T BuscarTodosPorId(int id)
+        public IEnumerable<T> BuscarTodosPorQuery<T>(string query = "") where T : class
         {
             try
             {
-                return _repository.BuscarTodosPorId(id);
+                return _baseRepository.BuscarTodosPorQuery<T>(query);
             }
             catch
             {
                 return default(dynamic);
             }
         }
-
-        public IEnumerable<T> BuscarTodosPorQuery(string query = "")
+        public IEnumerable<T> BuscarTodosPorQueryGerador<T>(string sqlWhere = "") where T : class
         {
             try
             {
-                return _repository.BuscarTodosPorQuery(query);
+                return _baseRepository.BuscarTodosPorQueryGerador<T>(sqlWhere);
             }
             catch
             {
                 return default(dynamic);
             }
         }
-
-        public IEnumerable<T> BuscarTodosPorQueryGerador(string sqlWhere = "")
+        public int Excluir<T>(int id) where T : class
         {
             try
             {
-                return _repository.BuscarTodosPorQueryGerador(sqlWhere);
+                return _baseRepository.Excluir<T>(id);
             }
             catch
             {
                 return default(dynamic);
             }
         }
-
-        public int Excluir(int id)
-        {
-            try
-            {
-                return _repository.Excluir(id);
-            }
-            catch
-            {
-                return default(dynamic);
-            }
-        }
-
         public void ExecutarComando(string comandoSql)
         {
-            _repository.ExecutarComando(comandoSql);
+            _baseRepository.ExecutarComando(comandoSql);
         }
-
         public void ExecutarComandoDireto(CommandDefinition command)
         {
-            _repository.ExecutarComandoDireto(command);
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
+            _baseRepository.ExecutarComandoDireto(command);
         }
     }
 }

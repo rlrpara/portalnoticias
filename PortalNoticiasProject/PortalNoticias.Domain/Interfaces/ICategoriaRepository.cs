@@ -1,8 +1,6 @@
-﻿using PortalNoticias.Domain.Entities;
-
-namespace PortalNoticias.Domain.Interfaces
+﻿namespace PortalNoticias.Domain.Interfaces
 {
-    public interface ICategoriaRepository : IBaseRepository<Categoria>
+    public interface ICategoriaRepository : IBaseRepository
     {
     }
 }

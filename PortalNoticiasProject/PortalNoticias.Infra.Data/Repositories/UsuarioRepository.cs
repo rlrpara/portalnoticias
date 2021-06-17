@@ -1,14 +1,12 @@
-﻿using PortalNoticias.Domain.Entities;
-using PortalNoticias.Domain.Interfaces;
+﻿using PortalNoticias.Domain.Interfaces;
 
 namespace PortalNoticias.Infra.Data.Repositories
 {
-    public class UsuarioRepository : BaseRepository<Usuario>, IUsuarioRepository
+    public class UsuarioRepository : BaseRepository, IUsuarioRepository
     {
-        private readonly BaseRepository<Usuario> _baseRepository;
-        public UsuarioRepository(BaseRepository<Usuario> baseRepository)
+        public UsuarioRepository()
         {
-            _baseRepository = baseRepository;
+
         }
     }
 }

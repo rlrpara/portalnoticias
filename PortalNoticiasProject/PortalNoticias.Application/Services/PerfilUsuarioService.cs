@@ -1,10 +1,9 @@
 ﻿using PortalNoticias.Application.Interfaces;
-using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
 
 namespace PortalNoticias.Application.Services
 {
-    public class PerfilUsuarioService : BaseService<PerfilUsuario>, IPerfilUsuarioService
+    public class PerfilUsuarioService : BaseService, IPerfilUsuarioService
     {
         private readonly IPerfilUsuarioRepository _perfilUsuarioRepository;
 

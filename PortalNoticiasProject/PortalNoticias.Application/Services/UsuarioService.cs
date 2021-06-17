@@ -2,10 +2,11 @@
 using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PortalNoticias.Application.Services
 {
-    public class UsuarioService : BaseService<Usuario>, IUsuarioService
+    public class UsuarioService : BaseService, IUsuarioService
     {
         private IUsuarioRepository _usuarioRepository;
         public UsuarioService(IUsuarioRepository usuarioRepository)
@@ -16,7 +17,7 @@ namespace PortalNoticias.Application.Services
 
         public List<Usuario> GetAll()
         {
-            throw new System.NotImplementedException();
+            return _usuarioRepository.BuscarTodosPorQueryGerador<Usuario>("").ToList();
         }
     }
 }

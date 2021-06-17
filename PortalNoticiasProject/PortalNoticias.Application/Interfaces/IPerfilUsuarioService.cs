@@ -1,8 +1,6 @@
-﻿using PortalNoticias.Domain.Entities;
-
-namespace PortalNoticias.Application.Interfaces
+﻿namespace PortalNoticias.Application.Interfaces
 {
-    public interface IPerfilUsuarioService : IBaseService<PerfilUsuario>
+    public interface IPerfilUsuarioService : IBaseService
     {
     }
 }

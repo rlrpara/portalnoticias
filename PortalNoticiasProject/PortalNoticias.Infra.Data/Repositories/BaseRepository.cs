@@ -10,7 +10,7 @@ using System.Text;
 
 namespace PortalNoticias.Infra.Data.Repositories
 {
-    public class BaseRepository<T> : IDisposable, IBaseRepository<T> where T : class
+    public class BaseRepository : IDisposable, IBaseRepository
     {
         #region Propriedades Privadas
         private IDbTransaction sqlTransaction;
@@ -26,7 +26,7 @@ namespace PortalNoticias.Infra.Data.Repositories
         #endregion
 
         #region Métodos Privados
-        private string ObterNomeTabela()
+        private string ObterNomeTabela<T>()
         {
             SqlMapperExtensions.TableNameMapper = TableNameMapper;
             return TableNameMapper(typeof(T));
@@ -51,7 +51,7 @@ namespace PortalNoticias.Infra.Data.Repositories
             if (Conexao.State == ConnectionState.Open && Conexao.State != ConnectionState.Closed)
                 Conexao.Close();
         }
-        public int Adicionar(T entidade)
+        public int Adicionar<T>(T entidade) where T : class
         {
             try
             {
@@ -64,7 +64,7 @@ namespace PortalNoticias.Infra.Data.Repositories
             }
         }
 
-        public int Atualizar(int id, T entidade)
+        public int Atualizar<T>(int id, T entidade) where T : class
         {
             try
             {
@@ -77,14 +77,14 @@ namespace PortalNoticias.Infra.Data.Repositories
             }
         }
 
-        public long BuscaMaxItem(string campo, string sqlWhere)
+        public long BuscaMaxItemAsync<T>(string campo, string sqlWhere) where T : class
         {
             try
             {
                 OpenConnection();
                 var sqlPesquisa = new StringBuilder()
                     .AppendLine($"SELECT ISNULL(MAX({campo}),0) AS MAX")
-                    .AppendLine($"FROM {ObterNomeTabela()}")
+                    .AppendLine($"FROM {ObterNomeTabela<T>()}")
                     .AppendLine($"WHERE {sqlWhere}");
 
                 return SqlMapper.QueryFirstOrDefault<long>(Conexao, sqlPesquisa.ToString(), transaction: sqlTransaction) + 1;
@@ -95,14 +95,14 @@ namespace PortalNoticias.Infra.Data.Repositories
             }
         }
 
-        public T BuscarComJoins(string sqlWhere = null, string join = null, params string[] fields)
+        public T BuscarComJoins<T>(string sqlWhere = null, string join = null, params string[] fields)
         {
             try
             {
                 OpenConnection();
                 var sqlPesquisa = new StringBuilder()
                     .AppendLine($"SELECT {string.Join(", ", fields)}")
-                    .AppendLine($"FROM {ObterNomeTabela()} {join} {sqlWhere}");
+                    .AppendLine($"FROM {ObterNomeTabela<T>()} {join} {sqlWhere}");
 
                 return SqlMapper.QueryFirstOrDefault<T>(Conexao, sqlPesquisa.ToString(), null, transaction: sqlTransaction, 80000000);
             }
@@ -112,12 +112,12 @@ namespace PortalNoticias.Infra.Data.Repositories
             }
         }
 
-        public T BuscarPorQuery(string query)
+        public T BuscarPorQuery<T>(string query)
         {
             try
             {
                 OpenConnection();
-                return Conexao.QueryFirstOrDefault(query, transaction: sqlTransaction, commandTimeout: 80000000, commandType: CommandType.Text);
+                return Conexao.QueryFirstOrDefault<T>(query, transaction: sqlTransaction, commandTimeout: 80000000, commandType: CommandType.Text);
             }
             catch
             {
@@ -125,7 +125,7 @@ namespace PortalNoticias.Infra.Data.Repositories
             }
         }
 
-        public T BuscarTodosPorId(int id)
+        public T BuscarTodosPorId<T>(int id) where T : class
         {
             try
             {
@@ -138,7 +138,7 @@ namespace PortalNoticias.Infra.Data.Repositories
             }
         }
 
-        public IEnumerable<T> BuscarTodosPorQuery(string query = null)
+        public IEnumerable<T> BuscarTodosPorQuery<T>(string query = null) where T : class
         {
             try
             {
@@ -158,7 +158,7 @@ namespace PortalNoticias.Infra.Data.Repositories
             }
         }
 
-        public IEnumerable<T> BuscarTodosPorQueryGerador(string sqlWhere = "")
+        public IEnumerable<T> BuscarTodosPorQueryGerador<T>(string sqlWhere = "") where T : class
         {
             try
             {
@@ -176,7 +176,7 @@ namespace PortalNoticias.Infra.Data.Repositories
             }
         }
 
-        public int Excluir(int id)
+        public int Excluir<T>(int id) where T : class
         {
             try
             {

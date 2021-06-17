@@ -1,14 +1,11 @@
-﻿using PortalNoticias.Domain.Entities;
-using PortalNoticias.Domain.Interfaces;
+﻿using PortalNoticias.Domain.Interfaces;
 
 namespace PortalNoticias.Infra.Data.Repositories
 {
-    public class MateriaRepository : BaseRepository<Materia>, IMateriaRepository
+    public class MateriaRepository : BaseRepository, IMateriaRepository
     {
-        private readonly BaseRepository<Materia> _baseRepository;
-        public MateriaRepository(BaseRepository<Materia> baseRepository)
+        public MateriaRepository()
         {
-            _baseRepository = baseRepository;
         }
     }
 }

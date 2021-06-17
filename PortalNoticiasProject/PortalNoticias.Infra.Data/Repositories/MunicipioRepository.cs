@@ -3,12 +3,11 @@ using PortalNoticias.Domain.Interfaces;
 
 namespace PortalNoticias.Infra.Data.Repositories
 {
-    public class MunicipioRepository : BaseRepository<Municipio>, IMunicipioRepository
+    public class MunicipioRepository : BaseRepository, IMunicipioRepository
     {
-        private readonly BaseRepository<Municipio> _baseRepository;
-        public MunicipioRepository(BaseRepository<Municipio> baseRepository)
+        public MunicipioRepository()
         {
-            _baseRepository = baseRepository;
+
         }
     }
 }
