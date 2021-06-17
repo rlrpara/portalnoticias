@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PortalNoticias.Domain.Entities;
 using PortalNoticias.Services.Interfaces;
-using PortalNoticias.Services.ViewModels;
 using System;
 using System.Linq;
 

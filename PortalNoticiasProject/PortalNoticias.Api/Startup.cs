@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PortalNoticias.Infra.CrossCutting.IoC;
+using PortalNoticias.Infra.CrossCutting.Swagger;
+using PortalNoticias.Services.AutoMapper;
+using System.Reflection;
 
 namespace PortalNoticias.Api
 {
@@ -18,9 +21,12 @@ namespace PortalNoticias.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var swaggerName = $"{Assembly.GetExecutingAssembly().GetName().Name.Replace(".", "")}.xml";
+
             services.AddControllers();
             NativeInjector.RegisterServices(services, Configuration);
-            services.AddMemoryCache();
+            services.AddAutoMapper(typeof(AutoMapperSetup));
+            services.AddSwaggerConfiguration(swaggerName);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -29,6 +35,8 @@ namespace PortalNoticias.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwaggerConfiguration();
 
             app.UseRouting();
 

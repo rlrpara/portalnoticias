@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace PortalNoticias.Infra.Util.ExtensionMethods
+namespace PortalNoticias.Infra.CrossCutting.Util.ExtensionMethods
 {
     public static class StringExtensions
     {

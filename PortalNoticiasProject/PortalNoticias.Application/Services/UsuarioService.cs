@@ -1,11 +1,10 @@
-﻿using PortalNoticias.Services.Interfaces;
+﻿using AutoMapper;
 using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
+using PortalNoticias.Services.Interfaces;
+using PortalNoticias.Services.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
-using PortalNoticias.Services.ViewModels;
-using PortalNoticias.Infra.Util.ExtensionMethods;
-using System;
 
 namespace PortalNoticias.Services.Services
 {
@@ -13,14 +12,16 @@ namespace PortalNoticias.Services.Services
     {
         #region Propriedades Privadas
         private IUsuarioRepository _usuarioRepository;
+        private readonly IMapper _mapper;
 
         #endregion
 
         #region Construtor
-        public UsuarioService(IUsuarioRepository usuarioRepository)
+        public UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper)
             : base(usuarioRepository)
         {
             _usuarioRepository = usuarioRepository;
+            _mapper = mapper;
         }
 
         #endregion
@@ -28,10 +29,7 @@ namespace PortalNoticias.Services.Services
         #region Métodos Privados
         private UsuarioViewModel RetornaUsuarioViewModel(Usuario usuario)
         {
-            if (usuario != null)
-                return new UsuarioViewModel() { Codigo = usuario.Codigo, Email = usuario.Email, Nome = usuario.Nome };
-
-            return null;
+            return (usuario != null ? _mapper.Map<UsuarioViewModel>(usuario) : null);
         }
 
         #endregion
@@ -41,12 +39,7 @@ namespace PortalNoticias.Services.Services
         {
             try
             {
-                var listUsuariosViewModel = new List<UsuarioViewModel>();
-
-                foreach (var item in _usuarioRepository.BuscarTodosPorQueryGerador<Usuario>("").ToList())
-                    listUsuariosViewModel.Add(new UsuarioViewModel { Codigo = item.Codigo, Email = item.Email, Nome = item.Nome.RemoveAcentos() });
-
-                return listUsuariosViewModel;
+                return _mapper.Map<List<UsuarioViewModel>>(_usuarioRepository.BuscarTodosPorQueryGerador<Usuario>("").ToList());
             }
             catch
             {

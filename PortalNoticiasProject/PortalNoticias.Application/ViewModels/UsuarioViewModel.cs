@@ -1,4 +1,4 @@
-﻿using PortalNoticias.Infra.Util.ExtensionMethods;
+﻿using PortalNoticias.Infra.CrossCutting.Util.ExtensionMethods;
 
 namespace PortalNoticias.Services.ViewModels
 {

@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PortalNoticias.Infra.Data\PortalNoticias.Infra.Data.csproj" />
-    <ProjectReference Include="..\PortalNoticias.Infra.Util\PortalNoticias.Infra.Util.csproj" />
+    <ProjectReference Include="..\PortalNoticias.Infra.Util\PortalNoticias.Infra.CrossCutting.Util.csproj" />
   </ItemGroup>
 
 </Project>

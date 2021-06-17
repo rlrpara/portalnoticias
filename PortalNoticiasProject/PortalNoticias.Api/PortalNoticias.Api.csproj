@@ -4,13 +4,20 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>PortalNoticiasApi.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="DotNetEnv" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PortalNoticias.Application\PortalNoticias.Services.csproj" />
     <ProjectReference Include="..\PortalNoticias.Infra.CrossCutting.IoC\PortalNoticias.Infra.CrossCutting.IoC.csproj" />
+    <ProjectReference Include="..\PortalNoticias.Infra.CrossCutting.Swagger\PortalNoticias.Infra.CrossCutting.Swagger.csproj" />
   </ItemGroup>
 
 </Project>
