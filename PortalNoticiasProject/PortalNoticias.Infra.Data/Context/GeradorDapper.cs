@@ -107,7 +107,6 @@ namespace PortalNoticias.Infra.Data.Context
             {
                 var campo = field.GetCustomAttribute<ColumnAttribute>()?.Name ?? "";
                 var chave = field?.Name ?? "";
-                var valor = field.GetValue(entidade)?.ToString() ?? "";
 
                 if (field.GetCustomAttribute<KeyAttribute>() == null)
                 {
