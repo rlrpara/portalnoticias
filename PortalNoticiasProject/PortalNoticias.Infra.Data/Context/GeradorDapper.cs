@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
@@ -55,29 +56,32 @@ namespace PortalNoticias.Infra.Data.Context
         }
         public static DynamicParameters ObterParametros<T>(T entidade)
         {
-            var dbArgs = new DynamicParameters();
+            var listaParametros = new DynamicParameters();
             foreach (var field in entidade.GetType().GetProperties())
+                listaParametros.AddDynamicParams(RetornaListaParametros(field.GetCustomAttribute<ColumnAttribute>(), field.GetValue(entidade), field.Name));
+
+            return listaParametros;
+        }
+
+        private static DynamicParameters RetornaListaParametros(ColumnAttribute atributo, object valor, string nome)
+        {
+            var listaParametros = new DynamicParameters();
+
+            if (!EhBrancoNulo(atributo?.Name ?? "") && (valor != null) && !valor.ToString().Contains("01/01/0001 12:00:00 AM") && !valor.ToString().Equals("0"))
             {
-                var obterCampo = field.GetCustomAttribute<ColumnAttribute>()?.Name ?? "";
-                var obterValor = field.GetValue(entidade);
+                if (valor is DateTime)
+                    listaParametros.Add($"@{nome}", EhBrancoNulo(valor?.ToString() ?? "") ? null : Convert.ToDateTime(valor.ToString()).ToString("yyyy-MM-dd HH:mm:ss"), DbType.DateTime);
 
-                if (!EhBrancoNulo(obterCampo) && (obterValor != null) && !obterValor.ToString().Contains("01/01/0001 12:00:00 AM") && !obterValor.ToString().Equals("0"))
-                {
-                    if (obterValor is DateTime)
-                        dbArgs.Add($"@{field.Name}", EhBrancoNulo(obterValor?.ToString() ?? "") ? null : Convert.ToDateTime(obterValor.ToString()).ToString("yyyy-MM-dd HH:mm:ss"), DbType.DateTime);
+                else if (valor is bool)
+                    listaParametros.Add($"@{nome}", EhBrancoNulo(valor?.ToString() ?? "") ? null : Convert.ToBoolean(valor), DbType.Boolean);
 
-                    else if (obterValor is bool)
-                        dbArgs.Add($"@{field.Name}", EhBrancoNulo(obterValor?.ToString() ?? "") ? null : Convert.ToBoolean(obterValor), DbType.Boolean);
+                else if (valor is Int32)
+                    listaParametros.Add($"@{nome}", EhBrancoNulo(valor?.ToString() ?? "") ? null : Convert.ToInt32(valor), DbType.Int32);
 
-                    else if (obterValor is Int32)
-                        dbArgs.Add($"@{field.Name}", EhBrancoNulo(obterValor?.ToString() ?? "") ? null : Convert.ToInt32(obterValor), DbType.Int32);
-
-                    else if (field.GetCustomAttribute<KeyAttribute>() == null)
-                        dbArgs.Add($"@{field.Name}", EhBrancoNulo(obterValor?.ToString() ?? "") ? null : obterValor?.ToString(), DbType.String);
-                }
+                else if (valor is string)
+                    listaParametros.Add($"@{nome}", EhBrancoNulo(valor?.ToString() ?? "") ? null : valor?.ToString(), DbType.String);
             }
-
-            return dbArgs;
+            return listaParametros;
         }
 
         private static string ObterValoresInsert<T>() where T : class
