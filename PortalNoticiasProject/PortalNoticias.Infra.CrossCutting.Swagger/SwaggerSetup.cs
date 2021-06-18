@@ -21,7 +21,7 @@ namespace PortalNoticias.Infra.CrossCutting.Swagger
                     {
                         Name = "Rodrigo de L. Ribeiro",
                         Email = "rlr.para@gmail.com",
-                        Url = new Uri("http://www.rlrsistemas.com.br")
+                        Url = new Uri(Environment.GetEnvironmentVariable("URL_SITE"))
                     }
                 });
 
