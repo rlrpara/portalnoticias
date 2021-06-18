@@ -26,7 +26,7 @@ namespace PortalNoticias.Infra.Data.Repositories
         #endregion
 
         #region Métodos Privados
-        private string ObterNomeTabela<T>()
+        private static string ObterNomeTabela<T>()
         {
             SqlMapperExtensions.TableNameMapper = TableNameMapper;
             return TableNameMapper(typeof(T));
