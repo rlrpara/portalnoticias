@@ -4,6 +4,7 @@ using PortalNoticias.Infra.CrossCutting.Auth.Models;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 
 namespace PortalNoticias.Infra.CrossCutting.Auth.Services
@@ -34,6 +35,13 @@ namespace PortalNoticias.Infra.CrossCutting.Auth.Services
             {
                 return default(dynamic);
             }
+        }
+
+        public static string GetValueFromClaim(IIdentity identity, string field)
+        {
+            var claims = identity as ClaimsIdentity;
+
+            return claims.FindFirst(field).Value;
         }
     }
 }

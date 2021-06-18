@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -60,16 +61,19 @@ namespace PortalNoticias.Infra.Data.Context
                 var obterCampo = field.GetCustomAttribute<ColumnAttribute>()?.Name ?? "";
                 var obterValor = field.GetValue(entidade);
 
-                if (!EhBrancoNulo(obterCampo) && !obterValor.ToString().Contains("01/01/0001 12:00:00 AM") && !obterValor.ToString().Equals("0"))
+                if (!EhBrancoNulo(obterCampo) && (obterValor != null) && !obterValor.ToString().Contains("01/01/0001 12:00:00 AM") && !obterValor.ToString().Equals("0"))
                 {
                     if (obterValor is DateTime)
-                        dbArgs.Add($"@{field.Name}", EhBrancoNulo(obterValor?.ToString() ?? "") ? null : Convert.ToDateTime(obterValor.ToString()).ToString("yyyy-MM-dd HH:mm:ss"));
+                        dbArgs.Add($"@{field.Name}", EhBrancoNulo(obterValor?.ToString() ?? "") ? null : Convert.ToDateTime(obterValor.ToString()).ToString("yyyy-MM-dd HH:mm:ss"), DbType.DateTime);
 
                     else if (obterValor is bool)
-                        dbArgs.Add($"@{field.Name}", EhBrancoNulo(obterValor?.ToString() ?? "") ? null : Convert.ToBoolean(obterValor?.ToString()));
+                        dbArgs.Add($"@{field.Name}", EhBrancoNulo(obterValor?.ToString() ?? "") ? null : Convert.ToBoolean(obterValor), DbType.Boolean);
+
+                    else if (obterValor is Int32)
+                        dbArgs.Add($"@{field.Name}", EhBrancoNulo(obterValor?.ToString() ?? "") ? null : Convert.ToInt32(obterValor), DbType.Int32);
 
                     else if (field.GetCustomAttribute<KeyAttribute>() == null)
-                        dbArgs.Add($"@{field.Name}", EhBrancoNulo(obterValor?.ToString() ?? "") ? null : obterValor?.ToString());
+                        dbArgs.Add($"@{field.Name}", EhBrancoNulo(obterValor?.ToString() ?? "") ? null : obterValor?.ToString(), DbType.String);
                 }
             }
 

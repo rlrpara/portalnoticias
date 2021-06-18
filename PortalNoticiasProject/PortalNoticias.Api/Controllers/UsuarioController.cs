@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PortalNoticias.Infra.CrossCutting.Auth.Services;
 using PortalNoticias.Services.Interfaces;
 using PortalNoticias.Services.ViewModels;
 using System;
 using System.Linq;
+using System.Security.Claims;
 
 namespace PortalNoticias.Api.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Authorize]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;
@@ -43,7 +46,7 @@ namespace PortalNoticias.Api.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost, AllowAnonymous]
         public IActionResult Post([FromBody] UsuarioViewModel entidade)
         {
             try
@@ -59,7 +62,7 @@ namespace PortalNoticias.Api.Controllers
             }
         }
 
-        [HttpPut("")]
+        [HttpPut]
         public IActionResult Put([FromBody] UsuarioViewModel entidade)
         {
             try
@@ -80,15 +83,17 @@ namespace PortalNoticias.Api.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public IActionResult Delete()
         {
             try
             {
-                if (_usuarioService.GetById(id) == null)
+                int usuarioLogadoId = int.Parse(TokenService.GetValueFromClaim(HttpContext.User.Identity, ClaimTypes.NameIdentifier));
+
+                if (_usuarioService.GetById(usuarioLogadoId) == null)
                     return NotFound();
 
-                return Ok(_usuarioService.Delete(id));
+                return Ok(_usuarioService.Delete(usuarioLogadoId));
             }
             catch (Exception ex)
             {
@@ -96,7 +101,7 @@ namespace PortalNoticias.Api.Controllers
             }
         }
 
-        [HttpPost("authenticate")]
+        [HttpPost("authenticate"), AllowAnonymous]
         public IActionResult Authenticate([FromBody] UserAuthenticateRequestViewModel entidade)
         {
             try

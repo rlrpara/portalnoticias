@@ -7,16 +7,16 @@ namespace PortalNoticias.Domain.Models
     public class Entity
     {
         [Key]
-        [Column("ID", Order = 1)]
+        [Column(name: "ID", Order = 1)]
         public int Codigo { get; set; }
 
-        [Column("DATA_CRIADO", Order = 100)]
-        public DateTime DataCriado { get; set; }
+        [Column(name: "DATA_CRIADO", Order = 100)]
+        public DateTime? DataCriado { get; set; } = DateTime.Now;
 
-        [Column("DATA_ATUALIZADO", Order = 101)]
-        public DateTime DataAtualizacao { get; set; }
+        [Column(name: "DATA_ATUALIZADO", Order = 101)]
+        public DateTime? DataAtualizacao { get; set; } = DateTime.Now;
 
-        [Column("DELETADO", Order = 102)]
+        [Column(name: "DELETADO", Order = 102)]
         public bool IsDelete { get; set; }
     }
 }

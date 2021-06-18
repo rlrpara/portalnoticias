@@ -6,6 +6,7 @@ namespace PortalNoticias.Services.ViewModels
     {
         private string _nome;
         private string _email;
+        private string _senha;
 
         public int Codigo { get; set; }
         public string Nome {
@@ -17,5 +18,12 @@ namespace PortalNoticias.Services.ViewModels
             set { _email = value; }
         }
 
+        public string Senha {
+            get { return _senha; }
+            set { _senha = value; }
+        }
+
+        public int CodigoPerfil { get; set; }
+        public bool isDelete { get; set; }
     }
 }

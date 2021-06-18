@@ -1,17 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using PortalNoticias.Domain.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PortalNoticias.Domain.Entities
 {
     [Table("Categoria")]
-    public class Categoria
+    public class Categoria : Entity
     {
-        [Column("ID")]
-        public int Codigo { get; set; }
-
-        [Column("NOME")]
+        [Column(name: "NOME", Order = 2)]
         public string Nome { get; set; }
 
-        [Column("ID_MUNICIPIO")]
+        [Column(name: "ID_MUNICIPIO", Order = 3)]
         public string CodigoMunicipio { get; set; }
     }
 }
