@@ -4,6 +4,7 @@ using PortalNoticias.Domain.Interfaces;
 using PortalNoticias.Infra.CrossCutting.Auth.Services;
 using PortalNoticias.Services.Interfaces;
 using PortalNoticias.Services.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -48,11 +49,14 @@ namespace PortalNoticias.Services.Services
             }
         }
 
-        public UsuarioViewModel GetById(int id)
+        public UsuarioViewModel GetById(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new Exception("Id inválido");
+
             try
             {
-                return (id == 0 ? null : _mapper.Map<UsuarioViewModel>(_usuarioRepository.BuscarTodosPorId<Usuario>(id)));
+                return (string.IsNullOrWhiteSpace(id) ? null : _mapper.Map<UsuarioViewModel>(_usuarioRepository.BuscarTodosPorId<Usuario>(int.Parse(id))));
             }
             catch
             {
@@ -62,6 +66,9 @@ namespace PortalNoticias.Services.Services
 
         public bool Post(UsuarioViewModel usuarioViewModel)
         {
+            if (usuarioViewModel.Codigo != 0)
+                throw new Exception("O Código do Usuário deve ser nullo");
+
             try
             {
                 return (_usuarioRepository.Adicionar(_mapper.Map<Usuario>(usuarioViewModel)) > 0);

@@ -6,7 +6,7 @@ namespace PortalNoticias.Services.Interfaces
     public interface IUsuarioService : IBaseService
     {
         List<UsuarioViewModel> GetAll();
-        UsuarioViewModel GetById(int id);
+        UsuarioViewModel GetById(string id);
         bool Post(UsuarioViewModel usuarioViewModel);
         bool Put(UsuarioViewModel usuarioViewModel);
         bool Delete(int id);

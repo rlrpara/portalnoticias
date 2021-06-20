@@ -34,7 +34,7 @@ namespace PortalNoticias.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetId(int id)
+        public IActionResult GetId(string id)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace PortalNoticias.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (_usuarioService.GetById(entidade.Codigo) == null)
+                    if (_usuarioService.GetById(entidade.Codigo.ToString()) == null)
                         return NotFound();
 
                     return Ok(_usuarioService.Put(entidade));
@@ -90,7 +90,7 @@ namespace PortalNoticias.Api.Controllers
             {
                 int usuarioLogadoId = int.Parse(TokenService.GetValueFromClaim(HttpContext.User.Identity, ClaimTypes.NameIdentifier));
 
-                if (_usuarioService.GetById(usuarioLogadoId) == null)
+                if (_usuarioService.GetById(usuarioLogadoId.ToString()) == null)
                     return NotFound();
 
                 return Ok(_usuarioService.Delete(usuarioLogadoId));
