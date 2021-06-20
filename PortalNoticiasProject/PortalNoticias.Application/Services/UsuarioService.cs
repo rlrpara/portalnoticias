@@ -7,7 +7,9 @@ using PortalNoticias.Services.Interfaces;
 using PortalNoticias.Services.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
 
 namespace PortalNoticias.Services.Services
 {
@@ -42,7 +44,9 @@ namespace PortalNoticias.Services.Services
         {
             try
             {
-                return _mapper.Map<List<UsuarioViewModel>>(_usuarioRepository.BuscarTodosPorQueryGerador<Usuario>("").ToList());
+                var usuarios = _usuarioRepository.BuscarTodosPorQueryGerador<Usuario>("");
+
+                return _mapper.Map<List<UsuarioViewModel>>(usuarios);
             }
             catch
             {
@@ -70,8 +74,11 @@ namespace PortalNoticias.Services.Services
             if (usuarioViewModel.Codigo != 0)
                 throw new ArgumentException("O Código do Usuário deve ser nullo");
 
+            Validator.ValidateObject(usuarioViewModel, new ValidationContext(usuarioViewModel), true);
+
             try
             {
+
                 return (_usuarioRepository.Adicionar(_mapper.Map<Usuario>(usuarioViewModel)) > 0);
             }
             catch
@@ -87,7 +94,7 @@ namespace PortalNoticias.Services.Services
 
             try
             {
-                if(_usuarioRepository.BuscarTodosPorId<Usuario>(usuarioViewModel.Codigo) != null)
+                if (_usuarioRepository.BuscarTodosPorId<Usuario>(usuarioViewModel.Codigo) != null)
                     return (_usuarioRepository.Atualizar(usuarioViewModel.Codigo, _mapper.Map<Usuario>(usuarioViewModel)) > 0);
 
                 return false;
@@ -102,6 +109,7 @@ namespace PortalNoticias.Services.Services
         {
             if (!id.IsNumeric())
                 throw new ArgumentException("Código não informado.");
+
             try
             {
                 if (_usuarioRepository.BuscarTodosPorId<Usuario>(int.Parse(id)) != null)
@@ -119,10 +127,16 @@ namespace PortalNoticias.Services.Services
         {
             if (string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Senha))
                 throw new ArgumentException("Email/Senha são necessários");
+            try
+            {
+                var usuario = _usuarioRepository.BuscarTodosPorQueryGerador<Usuario>("").Where(x => !x.IsDelete && x.Email.ToLower().Contains(user.Email.ToLower())).FirstOrDefault();
 
-            var usuario = _usuarioRepository.BuscarTodosPorQueryGerador<Usuario>("") .Where(x => !x.IsDelete && x.Email.ToLower().Contains(user.Email.ToLower())).FirstOrDefault();
-
-            return (usuario == null ? null : new UserAuthenticateResponseViewModel(_mapper.Map<UsuarioViewModel>(usuario), TokenService.GenerateToken(usuario)));
+                return (usuario == null ? null : new UserAuthenticateResponseViewModel(_mapper.Map<UsuarioViewModel>(usuario), TokenService.GenerateToken(usuario)));
+            }
+            catch
+            {
+                return default(dynamic);
+            }
         }
 
         #endregion

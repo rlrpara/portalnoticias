@@ -54,7 +54,7 @@ namespace PortalNoticias.Api.Controllers
                 if (ModelState.IsValid)
                     return Created($"api/{RouteData.Values.First().Value}", _usuarioService.Post(entidade));
 
-                return BadRequest("Classe inválida");
+                return BadRequest($"Classe inválida: {ModelState}");
             }
             catch (Exception ex)
             {

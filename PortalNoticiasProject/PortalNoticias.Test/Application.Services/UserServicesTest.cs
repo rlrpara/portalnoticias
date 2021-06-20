@@ -1,23 +1,47 @@
 ﻿using AutoMapper;
 using Moq;
+using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
+using PortalNoticias.Services.AutoMapper;
+using PortalNoticias.Services.Interfaces;
 using PortalNoticias.Services.Services;
 using PortalNoticias.Services.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Xunit;
 
 namespace PortalNoticias.Test.Application.Services
 {
     [Trait("Service", "UsuarioService")]
-    public class UserServicesTest
+    public class UserServicesTest : UserServicesTestBase
     {
+        #region Propriedades Privadas
         private UsuarioService _usuarioService;
 
+        #endregion
+
+        #region Construtor
         public UserServicesTest()
         {
-            _usuarioService = new UsuarioService(new Mock<IUsuarioRepository>().Object, new Mock<IMapper>().Object);
+            var moqUsuarioRepositorio = new Mock<IUsuarioRepository>().Object;
+            var moqMapper = new Mock<IMapper>().Object;
+            _usuarioService = new UsuarioService(moqUsuarioRepositorio, moqMapper);
         }
 
+        #endregion
+
+        #region Métodos Privados
+        private Mapper ObterMapperConfig()
+        {
+            var autoMapperProfile = new AutoMapperSetup();
+            var configuration = new MapperConfiguration(x => x.AddProfile(autoMapperProfile));
+            return new Mapper(configuration);
+        }
+        #endregion
+
+        #region Valida Codigo Obrigatório
         [Fact(DisplayName = "Deve invalidar ao enviar Id via método Post")]
         public void DeveInvalidarEnviarIDViaMetodoPost()
         {
@@ -57,5 +81,37 @@ namespace PortalNoticias.Test.Application.Services
 
             Assert.Equal("Email/Senha são necessários", exception.Message);
         }
+
+        #endregion
+
+        #region Valida Objetos Corretos
+        [Fact(DisplayName = "Deve enviar um objeto válido via Post")]
+        public void DeveEnviarUmObjetoValidoViaPost()
+        {
+            Assert.False(_usuarioService.Post(ObterNovoUsuario()));
+        }
+
+        [Fact(DisplayName = "Deve enviar um objeto válido via Put")]
+        public void DeveEnviarObjetoValidoViaPut()
+        {
+            var usuarioRepository = new Mock<IUsuarioRepository>();
+
+            usuarioRepository.Setup(x => x.BuscarTodosPorQueryGerador<Usuario>("")).Returns(ObterListaUsuarios());
+
+            var resultado = new UsuarioService(usuarioRepository.Object, ObterMapperConfig()).GetAll();
+
+            Assert.True(resultado.Count > 0);
+        }
+
+        #endregion
+
+        #region Valida Campos Obrigatórios
+        [Fact(DisplayName = "Deve invalidar quando não enviar um campo obrigatório via Post")]
+        public void DeveInvalidaQuandoNaoEnviaCampoObrigatorioViaPost()
+        {
+            Assert.Equal("Campo obrigatório", Assert.Throws<ValidationException>(() => _usuarioService.Post(ObterNovoUsuarioIncompleto())).Message);
+        }
+
+        #endregion
     }
 }

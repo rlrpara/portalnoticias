@@ -168,7 +168,7 @@ namespace PortalNoticias.Infra.Data.Repositories
                 sqlPesquisa.AppendLine($"{GeradorDapper.RetornaSelect<T>()}");
                 if (!string.IsNullOrEmpty(sqlWhere)) sqlPesquisa.AppendLine(sqlWhere);
 
-                return Conexao.Query<T>(sqlPesquisa.ToString(), transaction: sqlTransaction, commandTimeout: 80000000, commandType: CommandType.Text);
+                return Conexao.Query<T>(sqlPesquisa.ToString(), transaction: sqlTransaction, commandTimeout: 80000000, commandType: CommandType.Text).ToList();
             }
             catch
             {
