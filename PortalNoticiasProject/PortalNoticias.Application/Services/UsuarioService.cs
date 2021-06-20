@@ -2,6 +2,7 @@
 using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
 using PortalNoticias.Infra.CrossCutting.Auth.Services;
+using PortalNoticias.Infra.CrossCutting.Util.ExtensionMethods;
 using PortalNoticias.Services.Interfaces;
 using PortalNoticias.Services.ViewModels;
 using System;
@@ -51,7 +52,7 @@ namespace PortalNoticias.Services.Services
 
         public UsuarioViewModel GetById(string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
+            if (!id.IsNumeric())
                 throw new ArgumentException("Código de Usuário inválido");
 
             try
@@ -99,7 +100,7 @@ namespace PortalNoticias.Services.Services
 
         public bool Delete(string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
+            if (!id.IsNumeric())
                 throw new ArgumentException("Código não informado.");
             try
             {
