@@ -38,5 +38,17 @@ namespace PortalNoticias.Test.Application.Services
                 }
             };
         }
+
+        public Usuario ObterUsuario1() => new()
+        {
+            Codigo = 1,
+            Nome = "Rodrigo Ribeiro",
+            Email = "rlr.para@gmail.com",
+            Senha = "12345",
+            CodigoPerfil = 2,
+            DataCriado = DateTime.Now,
+            DataAtualizacao = DateTime.Now,
+            IsDelete = false
+        };
     }
 }

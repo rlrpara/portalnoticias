@@ -91,8 +91,8 @@ namespace PortalNoticias.Test.Application.Services
             Assert.False(_usuarioService.Post(ObterNovoUsuario()));
         }
 
-        [Fact(DisplayName = "Deve enviar um objeto válido via Put")]
-        public void DeveEnviarObjetoValidoViaPut()
+        [Fact(DisplayName = "Deve retornar uma lista maior que 0 via GetAll")]
+        public void DeveRetornarListaMaiorQueZeroViaGetAll()
         {
             var usuarioRepository = new Mock<IUsuarioRepository>();
 
@@ -101,6 +101,18 @@ namespace PortalNoticias.Test.Application.Services
             var resultado = new UsuarioService(usuarioRepository.Object, ObterMapperConfig()).GetAll();
 
             Assert.True(resultado.Count > 0);
+        }
+
+        [Fact(DisplayName = "Deve retornar um usuario quando informado seu código válido via GetById")]
+        public void DeveRetornarUmUsuarioQuandoInformadoSeuCodigoValidoViaGetById()
+        {
+            var usuarioRepository = new Mock<IUsuarioRepository>();
+
+            usuarioRepository.Setup(x => x.BuscarTodosPorId<Usuario>(1)).Returns(ObterUsuario1());
+
+            var usuario = new UsuarioService(usuarioRepository.Object, ObterMapperConfig()).GetById("1");
+
+            Assert.Equal("Rodrigo Ribeiro", usuario.Nome);
         }
 
         #endregion
