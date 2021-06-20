@@ -206,7 +206,7 @@ namespace PortalNoticias.Infra.Data.Repositories
             Conexao.Execute(command);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             CloseConnection();
             Conexao.Dispose();
