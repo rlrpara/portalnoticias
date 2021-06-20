@@ -9,7 +9,7 @@ namespace PortalNoticias.Services.Interfaces
         UsuarioViewModel GetById(string id);
         bool Post(UsuarioViewModel usuarioViewModel);
         bool Put(UsuarioViewModel usuarioViewModel);
-        bool Delete(int id);
+        bool Delete(string id);
         UserAuthenticateResponseViewModel Authenticate(UserAuthenticateRequestViewModel user);
     }
 }

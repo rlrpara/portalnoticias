@@ -93,7 +93,7 @@ namespace PortalNoticias.Api.Controllers
                 if (_usuarioService.GetById(usuarioLogadoId.ToString()) == null)
                     return NotFound();
 
-                return Ok(_usuarioService.Delete(usuarioLogadoId));
+                return Ok(_usuarioService.Delete(usuarioLogadoId.ToString()));
             }
             catch (Exception ex)
             {

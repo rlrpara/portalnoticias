@@ -52,7 +52,7 @@ namespace PortalNoticias.Services.Services
         public UsuarioViewModel GetById(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new Exception("Código de Usuário inválido");
+                throw new ArgumentException("Código de Usuário inválido");
 
             try
             {
@@ -67,7 +67,7 @@ namespace PortalNoticias.Services.Services
         public bool Post(UsuarioViewModel usuarioViewModel)
         {
             if (usuarioViewModel.Codigo != 0)
-                throw new Exception("O Código do Usuário deve ser nullo");
+                throw new ArgumentException("O Código do Usuário deve ser nullo");
 
             try
             {
@@ -82,7 +82,7 @@ namespace PortalNoticias.Services.Services
         public bool Put(UsuarioViewModel usuarioViewModel)
         {
             if (usuarioViewModel.Codigo == 0)
-                throw new Exception("Código de Usuário inválido");
+                throw new ArgumentException("Código de Usuário inválido");
 
             try
             {
@@ -97,12 +97,14 @@ namespace PortalNoticias.Services.Services
             }
         }
 
-        public bool Delete(int id)
+        public bool Delete(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("Código não informado.");
             try
             {
-                if (_usuarioRepository.BuscarTodosPorId<Usuario>(id) != null)
-                    return (_usuarioRepository.Excluir<Usuario>(id) > 0);
+                if (_usuarioRepository.BuscarTodosPorId<Usuario>(int.Parse(id)) != null)
+                    return (_usuarioRepository.Excluir<Usuario>(int.Parse(id)) > 0);
 
                 return false;
             }
@@ -114,6 +116,9 @@ namespace PortalNoticias.Services.Services
 
         public UserAuthenticateResponseViewModel Authenticate(UserAuthenticateRequestViewModel user)
         {
+            if (string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Senha))
+                throw new ArgumentException("Email/Senha são necessários");
+
             var usuario = _usuarioRepository.BuscarTodosPorQueryGerador<Usuario>("") .Where(x => !x.IsDelete && x.Email.ToLower().Contains(user.Email.ToLower())).FirstOrDefault();
 
             return (usuario == null ? null : new UserAuthenticateResponseViewModel(_mapper.Map<UsuarioViewModel>(usuario), TokenService.GenerateToken(usuario)));
