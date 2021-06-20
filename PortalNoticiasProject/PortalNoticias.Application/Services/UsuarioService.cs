@@ -52,7 +52,7 @@ namespace PortalNoticias.Services.Services
         public UsuarioViewModel GetById(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new Exception("Id inválido");
+                throw new Exception("Código de Usuário inválido");
 
             try
             {
@@ -81,6 +81,9 @@ namespace PortalNoticias.Services.Services
 
         public bool Put(UsuarioViewModel usuarioViewModel)
         {
+            if (usuarioViewModel.Codigo == 0)
+                throw new Exception("Código de Usuário inválido");
+
             try
             {
                 if(_usuarioRepository.BuscarTodosPorId<Usuario>(usuarioViewModel.Codigo) != null)

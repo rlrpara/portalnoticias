@@ -31,7 +31,15 @@ namespace PortalNoticias.Test.Application.Services
         {
             Exception exception = Assert.Throws<Exception>(() => _usuarioService.GetById(""));
 
-            Assert.Equal("Id inválido", exception.Message);
+            Assert.Equal("Código de Usuário inválido", exception.Message);
+        }
+
+        [Fact(DisplayName = "Deve invalidar ao enviar id vazia ou nulla via Put")]
+        public void DeveInvalidarEnviarIDVaziaNUlaViaPut()
+        {
+            Exception exception = Assert.Throws<Exception>(() => _usuarioService.Put(new UsuarioViewModel()));
+
+            Assert.Equal("Código de Usuário inválido", exception.Message);
         }
     }
 }
