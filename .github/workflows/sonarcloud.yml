@@ -46,7 +46,7 @@ jobs:
         run: |
           # dotnet tool update --global dotnet-sonarscanner
           # dotnet tool update --global dotnet-coverageconverter
-          dotnet tool install --global dotnet-coverageconverter
+          # dotnet tool install --global dotnet-coverageconverter
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
           dotnet tool update dotnet-coverageconverter --tool-path .\.sonar\dotnetcoverage
 
