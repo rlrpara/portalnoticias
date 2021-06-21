@@ -1,28 +1,38 @@
-name: Test and Analyze
+name: SonarCloud
 on:
   push:
     branches: ["**"]
   pull_request:
     branches: ["**"]
-    
 jobs:
   build:
     name: Build
     runs-on: windows-latest
     steps:
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      - name: Begin
+        uses: actions/checkout@v2
         with:
-          java-version: 1.11
-      - uses: actions/checkout@v2
+          fetch-depth: 0
+          
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          dotnet-version: 5.0.x
+          
+      - name: Setup Java 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+          check-latest: true
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
         uses: actions/cache@v1
@@ -30,20 +40,20 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
+          
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: pwsh
         run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-          
-      - name: Build and analyze
+          dotnet tool install -g dotnet-coverageconverter
+          dotnet tool update dotnet-coverageconverter --tool-path .\.sonar\dotnetcoverage
+
+      - name: Test and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: pwsh
         run: |
-          dotnet tool upadate --global dotnet-reportgenerator-globaltool
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet test "PortalNoticiasProject/PortalNoticiasProject.sln" /p:CollectCoverage=true /p:Exclude="[*]PortalNoticias.Api.*" /p:CoverletOutputFormat=opencover -l trx
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx"
+          dotnet test "PortalNoticiasProject/PortalNoticiasProject.sln" --collect "Code Coverage" --logger trx --results-directory "TestsResults"
+          .\.sonar\dotnetcoverage\dotnet-coverageconverter -f "." -p true -r
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
