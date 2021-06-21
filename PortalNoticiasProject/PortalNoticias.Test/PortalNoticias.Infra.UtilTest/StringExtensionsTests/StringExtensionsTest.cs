@@ -6,10 +6,16 @@ namespace PortalNoticias.Test.PortalNoticias.Infra.UtilTest.StringExtensionsTest
     [Trait("ExtensionMethods", "StringExtensions")]
     public class StringExtensionsTest
     {
-        [Fact(DisplayName = "Deve retornar verdadeiro quando numerico")]
-        public void DeveRetornarVerdadeiroQuandoNumerico()
+        [Fact(DisplayName = "Deve retornar apenas numeros de uma string")]
+        public void DeveRetornarApenasNumerosUmaString()
         {
             Assert.Equal("12455", "A1d2@c45FVvfd5".ApenasNumeros());
+        }
+
+        [Fact(DisplayName = "Deve retornar apenas vazio quando nao informado numeros")]
+        public void DeveRetornarVazioQuandoNaoInformadoNumeros()
+        {
+            Assert.Equal("", "Ad@cFVvfd".ApenasNumeros());
         }
     }
 }
