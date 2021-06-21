@@ -7,25 +7,16 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    
     steps:
-      - name: Begin
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v2
           
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.x
           
-      - name: Setup Java 11
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '11'
-          check-latest: true
-
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
@@ -40,13 +31,13 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
-          
+
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        run: |
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-          dotnet tool install -g dotnet-coverageconverter
-          dotnet tool update dotnet-coverageconverter --tool-path .\.sonar\dotnetcoverage
+        run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+      
+      - name: Install project dependencies
+        run: dotnet restore
 
       - name: Test and analyze
         env:
@@ -54,8 +45,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx"
-          # dotnet test "PortalNoticiasProject/PortalNoticiasProject.sln" --collect "Code Coverage" --logger trx --results-directory "TestsResults"
-          # .\.sonar\dotnetcoverage\dotnet-coverageconverter -f "." -p true -r
           dotnet test "PortalNoticiasProject/PortalNoticiasProject.sln" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
