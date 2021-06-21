@@ -40,6 +40,13 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
+       
+      - task: DotNetCoreCLI@2
+        displayName: "Install tool: dotnet-coverageconverter"
+        inputs:
+          command: 'custom'
+          custom: 'tool'
+          arguments: 'update dotnet-coverageconverter'
           
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
