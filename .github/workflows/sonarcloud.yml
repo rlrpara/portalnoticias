@@ -45,5 +45,5 @@ jobs:
         run: |
           dotnet tool upadate --global dotnet-reportgenerator-globaltool
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet test /p:CollectCoverage=true /p:Exclude="[*]PortalNoticias.Api.*" /p:CoverletOutputFormat=opencover -l trx
+          dotnet test "PortalNoticiasProject/PortalNoticiasProject.sln" /p:CollectCoverage=true /p:Exclude="[*]PortalNoticias.Api.*" /p:CoverletOutputFormat=opencover -l trx
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
