@@ -3,16 +3,13 @@ using Moq;
 using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
 using PortalNoticias.Services.AutoMapper;
-using PortalNoticias.Services.Interfaces;
 using PortalNoticias.Services.Services;
 using PortalNoticias.Services.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using Xunit;
 
-namespace PortalNoticias.Test.Application.Services
+namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
 {
     [Trait("Service", "UsuarioService")]
     public class UserServicesTest : UserServicesTestBase
@@ -112,7 +109,7 @@ namespace PortalNoticias.Test.Application.Services
 
             var usuario = new UsuarioService(usuarioRepository.Object, ObterMapperConfig()).GetById("1");
 
-            Assert.Equal("Rodrigo Ribeiro", usuario.Nome);
+            Assert.Equal("RODRIGO RIBEIRO", usuario.Nome);
         }
 
         #endregion

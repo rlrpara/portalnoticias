@@ -3,7 +3,7 @@ using PortalNoticias.Services.ViewModels;
 using System;
 using System.Collections.Generic;
 
-namespace PortalNoticias.Test.Application.Services
+namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
 {
     public class UserServicesTestBase
     {
