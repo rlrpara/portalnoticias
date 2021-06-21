@@ -14,8 +14,8 @@ jobs:
         with:
           fetch-depth: 0
           
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1.7.2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.x
           
@@ -49,6 +49,7 @@ jobs:
           dotnet tool install --global dotnet-coverageconverter
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
           # dotnet tool update dotnet-coverageconverter --tool-path .\.sonar\dotnetcoverage
+
       - name: Test and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
