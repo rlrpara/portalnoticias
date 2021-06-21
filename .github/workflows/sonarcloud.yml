@@ -2,16 +2,8 @@ name: Validate code
 on:
   push:
     branches: ["**"]
-    paths: 
-      - '**.Domain.**'
-      - '**.Infra.**'
-      - '**.Service.**'
   pull_request:
     branches: ["**"]
-    paths: 
-      - '**.Domain.**'
-      - '**.Infra.**'
-      - '**.Service.**'
 jobs:
   build:
     name: Build
