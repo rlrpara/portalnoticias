@@ -43,8 +43,10 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build "PortalNoticiasProject/PortalNoticiasProject.sln"
+          # dotnet build "PortalNoticiasProject/PortalNoticiasProject.sln"
           # dotnet test "PortalNoticiasProject/PortalNoticiasProject.sln" --collect "Code Coverage" --logger trx --results-directory "TestsResults"
 		  dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
           # dotnet-coverageconverter -f "." -p true -r
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
