@@ -49,4 +49,4 @@ jobs:
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build "PortalNoticiasProject/PortalNoticiasProject.sln" --configuration Release --no-restore
