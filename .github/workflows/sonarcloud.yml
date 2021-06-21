@@ -19,9 +19,9 @@ jobs:
           fetch-depth: 0
           
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1.7.2
+        uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.x
+          dotnet-version: 5.0.x
           
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
@@ -52,7 +52,7 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx"
-          dotnet build "PortalNoticiasProject/PortalNoticiasProject.sln"
+          # dotnet build "PortalNoticiasProject/PortalNoticiasProject.sln"
           dotnet test "PortalNoticiasProject/PortalNoticias.Test/PortalNoticias.Test.csproj" --collect "Code Coverage" --logger trx --results-directory "ResultTest"
           # dotnet-coverageconverter -f "." -p true -r
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
