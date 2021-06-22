@@ -1,39 +1,36 @@
 name: SonarCloud
-
 on:
   push:
     branches: ["**"]
   pull_request:
     branches: ["**"]
-
 jobs:
   build:
+    name: SonarQube Static Analysis
     runs-on: windows-latest
     steps:
-      - name: Begin
-        uses: actions/checkout@v2
+      - name: Setup .NET 5
+        uses: actions/setup-dotnet@v1
         with:
-          fetch-depth: 0
-          
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1.7.2
+          dotnet-version: '5.0.202'
+		  
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
         with:
-          dotnet-version: 3.1.x
-    
-      - name: Setup Java 11
-        uses: actions/setup-java@v2
+          java-version: 1.11
+		  
+      - uses: actions/checkout@v2
         with:
-          distribution: 'adopt'
-          java-version: '11'
-          check-latest: true
-
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+		  
       - name: Cache SonarCloud packages
+
         uses: actions/cache@v1
         with:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-
+		  
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
         uses: actions/cache@v1
@@ -41,19 +38,24 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
-          
+		  
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
         run: |
-          dotnet tool update --global dotnet-sonarscanner
-          dotnet tool update --global dotnet-coverageconverter
-
-      - name: Test and analyze
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+		  
+      - name: Build and analyze
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: cmd
         run: |
-          dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx"
-          dotnet test "PortalNoticiasProject/PortalNoticiasProject.sln" --collect "Code Coverage" --logger trx --results-directory "TestsResults"
-          dotnet-coverageconverter -f "." -p true -r
-          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"^
+            /d:sonar.cs.opencover.reportsPaths="CoverageResults/coverage.opencover.xml" ^
+		  dotnet build Sources /p:ContinuousIntegrationBuild=false
+          dotnet test Sources /p:CollectCoverage=true ^
+			/p:CoverletOutput="../../../CoverageResults/" /p:MergeWith="../../../CoverageResults/coverage.json" ^
+            /p:CoverletOutputFormat=\"opencover,json\" /maxcpucount:1 /p:ContinuousIntegrationBuild=false
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
