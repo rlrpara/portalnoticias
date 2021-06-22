@@ -43,18 +43,18 @@ jobs:
           
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+		shell: pwsh
         run: |
+		  New-Item -Path .\sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-          dotnet tool install dotnet-coverageconverter
           dotnet tool update dotnet-coverageconverter --tool-path .\.sonar\dotnetcoverage
-          dotnet add package coverlet.msbuild
 
       - name: Test and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+		shell: pwsh
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx"
-          dotnet test "PortalNoticiasProject/PortalNoticiasProject.sln" --collect "Code Coverage" --logger trx --results-directory "TestsResults"
-          dotnet-coverageconverter -f "PortalNoticiasProject/." -p true -r
+          dotnet build --configuration Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
