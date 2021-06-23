@@ -39,7 +39,9 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-          dotnet tool install --global dotnet-coverageconverter --version 0.0.5
+          New-Item -Path .\.sonar\scanner\coverage -ItemType Directory
+          dotnet tool update dotnet-coverageconverter --tool-path .\.sonar\scanner\coverage
+          # dotnet tool install --global dotnet-coverageconverter
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
