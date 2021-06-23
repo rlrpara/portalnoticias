@@ -45,7 +45,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: cmd
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/*.opencover.xml"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="**.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx" /d:sonar.cs.opencover.reportsPaths="**.opencover.xml"
           dotnet build "PortalNoticiasProject/PortalNoticiasProject.sln" /p:ContinuousIntegrationBuild=false
           dotnet test "PortalNoticiasProject/PortalNoticiasProject.sln" /p:CollectCoverage=true /p:CoverletOutput="**/CoverageResults/" /p:MergeWith="**/CoverageResults/coverage.json" /p:CoverletOutputFormat=\"opencover,json\" /maxcpucount:1 /p:ContinuousIntegrationBuild=false
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
