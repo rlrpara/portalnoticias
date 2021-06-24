@@ -32,31 +32,14 @@ namespace PortalNoticias.Services.Services
         #endregion
 
         #region Métodos Públicos
-        public List<UsuarioViewModel> GetAll()
-        {
-            try
-            {
-                return _mapper.Map<List<UsuarioViewModel>>(_usuarioRepository.BuscarTodosPorQueryGerador<Usuario>(""));
-            }
-            catch (Exception Ex)
-            {
-                throw new ArgumentException($"Código de Usuário inválido: {Ex.Message}");
-            }
-        }
+        public List<UsuarioViewModel> GetAll() => _mapper.Map<List<UsuarioViewModel>>(_usuarioRepository.BuscarTodosPorQueryGerador<Usuario>(""));
 
         public UsuarioViewModel GetById(string id)
         {
             if (!id.IsNumeric())
                 throw new ArgumentException("Código de Usuário inválido");
 
-            try
-            {
-                return (string.IsNullOrWhiteSpace(id) ? null : _mapper.Map<UsuarioViewModel>(_usuarioRepository.BuscarTodosPorId<Usuario>(int.Parse(id))));
-            }
-            catch (Exception Ex)
-            {
-                throw new ArgumentException($"Código de Usuário inválido: {Ex.Message}");
-            }
+            return (string.IsNullOrWhiteSpace(id) ? null : _mapper.Map<UsuarioViewModel>(_usuarioRepository.BuscarTodosPorId<Usuario>(int.Parse(id))));
         }
 
         public bool Post(UsuarioViewModel usuarioViewModel)
@@ -66,14 +49,7 @@ namespace PortalNoticias.Services.Services
 
             Validator.ValidateObject(usuarioViewModel, new ValidationContext(usuarioViewModel), true);
 
-            try
-            {
-                return (_usuarioRepository.Adicionar(_mapper.Map<Usuario>(usuarioViewModel)) > 0);
-            }
-            catch (Exception Ex)
-            {
-                throw new ArgumentException($"Código de Usuário inválido: {Ex.Message}");
-            }
+            return (_usuarioRepository.Adicionar(_mapper.Map<Usuario>(usuarioViewModel)) > 0);
         }
 
         public bool Put(UsuarioViewModel usuarioViewModel)
@@ -81,17 +57,8 @@ namespace PortalNoticias.Services.Services
             if (usuarioViewModel.Codigo == 0)
                 throw new ArgumentException("Código de Usuário inválido");
 
-            try
-            {
-                if (_usuarioRepository.BuscarTodosPorId<Usuario>(usuarioViewModel.Codigo) != null)
-                    return (_usuarioRepository.Atualizar(usuarioViewModel.Codigo, _mapper.Map<Usuario>(usuarioViewModel)) > 0);
+            return (_usuarioRepository.Atualizar(usuarioViewModel.Codigo, _mapper.Map<Usuario>(usuarioViewModel)) > 0);
 
-                return false;
-            }
-            catch (Exception Ex)
-            {
-                throw new ArgumentException($"Código de Usuário inválido: {Ex.Message}");
-            }
         }
 
         public bool Delete(string id)
@@ -99,17 +66,7 @@ namespace PortalNoticias.Services.Services
             if (!id.IsNumeric())
                 throw new ArgumentException("Código não informado.");
 
-            try
-            {
-                if (_usuarioRepository.BuscarTodosPorId<Usuario>(int.Parse(id)) != null)
-                    return (_usuarioRepository.Excluir<Usuario>(int.Parse(id)) > 0);
-
-                return false;
-            }
-            catch (Exception Ex)
-            {
-                throw new ArgumentException($"Código de Usuário inválido: {Ex.Message}");
-            }
+            return (_usuarioRepository.Excluir<Usuario>(int.Parse(id)) > 0);
         }
 
         public UserAuthenticateResponseViewModel Authenticate(UserAuthenticateRequestViewModel user)

@@ -50,5 +50,16 @@ namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
             DataAtualizacao = DateTime.Now,
             IsDelete = false
         };
+
+        public Usuario ObterUsuarioNulo() => new()
+        {
+            Nome = "Rodrigo Ribeiro",
+            Email = "rlr.para@gmail.com",
+            Senha = "12345",
+            CodigoPerfil = 2,
+            DataCriado = DateTime.Now,
+            DataAtualizacao = DateTime.Now,
+            IsDelete = false
+        };
     }
 }
