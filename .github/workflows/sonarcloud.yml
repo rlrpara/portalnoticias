@@ -48,6 +48,6 @@ jobs:
         shell: cmd
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="**\*.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx"
-          dotnet test "PortalNoticiasProject/PortalNoticias.Test/PortalNoticias.Test.csproj" /p:CoverletOutput=../../TestResults/PortalNoticias.Test.json /p:CollectCoverage=true
-          .\.sonar\scanner\coverage\dotnet-coverageconverter -f "." -p true -r
+          dotnet test "PortalNoticiasProject/PortalNoticias.Test/PortalNoticias.Test.csproj" --collect "Coverage" --logger trx --results-directory "TestsResults"
+          .\.sonar\scanner\coverage\dotnet-coverageconverter --CoverageFilesFolder "$(Agent.TempDirectory)\TestResults"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
