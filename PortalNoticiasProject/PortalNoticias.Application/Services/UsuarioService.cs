@@ -16,7 +16,7 @@ namespace PortalNoticias.Services.Services
     public class UsuarioService : BaseService, IUsuarioService
     {
         #region Propriedades Privadas
-        private IUsuarioRepository _usuarioRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
 
         #endregion
@@ -32,10 +32,7 @@ namespace PortalNoticias.Services.Services
         #endregion
 
         #region Métodos Privados
-        private UsuarioViewModel RetornaUsuarioViewModel(Usuario usuario)
-        {
-            return (usuario != null ? _mapper.Map<UsuarioViewModel>(usuario) : null);
-        }
+        private UsuarioViewModel RetornaUsuarioViewModel(Usuario usuario) => _mapper.Map<UsuarioViewModel>(usuario);
 
         #endregion
 
@@ -44,13 +41,11 @@ namespace PortalNoticias.Services.Services
         {
             try
             {
-                var usuarios = _usuarioRepository.BuscarTodosPorQueryGerador<Usuario>("");
-
-                return _mapper.Map<List<UsuarioViewModel>>(usuarios);
+                return _mapper.Map<List<UsuarioViewModel>>(_usuarioRepository.BuscarTodosPorQueryGerador<Usuario>(""));
             }
-            catch
+            catch (Exception Ex)
             {
-                return default(dynamic);
+                throw new ArgumentException($"Código de Usuário inválido: {Ex.Message}");
             }
         }
 
@@ -63,9 +58,9 @@ namespace PortalNoticias.Services.Services
             {
                 return (string.IsNullOrWhiteSpace(id) ? null : _mapper.Map<UsuarioViewModel>(_usuarioRepository.BuscarTodosPorId<Usuario>(int.Parse(id))));
             }
-            catch
+            catch (Exception Ex)
             {
-                return default(dynamic);
+                throw new ArgumentException($"Código de Usuário inválido: {Ex.Message}");
             }
         }
 
@@ -78,12 +73,11 @@ namespace PortalNoticias.Services.Services
 
             try
             {
-
                 return (_usuarioRepository.Adicionar(_mapper.Map<Usuario>(usuarioViewModel)) > 0);
             }
-            catch
+            catch (Exception Ex)
             {
-                return default(dynamic);
+                throw new ArgumentException($"Código de Usuário inválido: {Ex.Message}");
             }
         }
 
@@ -99,9 +93,9 @@ namespace PortalNoticias.Services.Services
 
                 return false;
             }
-            catch
+            catch (Exception Ex)
             {
-                return default(dynamic);
+                throw new ArgumentException($"Código de Usuário inválido: {Ex.Message}");
             }
         }
 
@@ -117,9 +111,9 @@ namespace PortalNoticias.Services.Services
 
                 return false;
             }
-            catch
+            catch (Exception Ex)
             {
-                return default(dynamic);
+                throw new ArgumentException($"Código de Usuário inválido: {Ex.Message}");
             }
         }
 
@@ -133,9 +127,9 @@ namespace PortalNoticias.Services.Services
 
                 return (usuario == null ? null : new UserAuthenticateResponseViewModel(_mapper.Map<UsuarioViewModel>(usuario), TokenService.GenerateToken(usuario)));
             }
-            catch
+            catch (Exception Ex)
             {
-                return default(dynamic);
+                throw new ArgumentException($"Código de Usuário inválido: {Ex.Message}");
             }
         }
 
