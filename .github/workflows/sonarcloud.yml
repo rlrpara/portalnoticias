@@ -40,7 +40,7 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
           New-Item -Path .\.sonar\scanner\coverage -ItemType Directory
-          dotnet tool install dotnet-coverageconverter --tool-path .\.sonar\scanner\coverage
+          dotnet tool update dotnet-coverageconverter --tool-path .\.sonar\scanner\coverage
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
@@ -48,6 +48,6 @@ jobs:
         shell: cmd
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="**/*.coveragexml" /d:sonar.cs.vstest.reportsPaths="**.trx"
-          dotnet test "PortalNoticiasProject/PortalNoticiasProject.sln" --collect "Code Coverage" --logger trx --results-directory "TestsResults"
+          dotnet test "PortalNoticiasProject/PortalNoticiasProject.sln" --collect "Coverage" --logger trx --results-directory "TestsResults"
           .\.sonar\scanner\coverage\dotnet-coverageconverter -f "." -p true -r
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
