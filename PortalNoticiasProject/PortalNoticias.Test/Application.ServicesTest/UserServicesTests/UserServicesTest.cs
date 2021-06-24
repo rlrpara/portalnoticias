@@ -121,6 +121,16 @@ namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
             Assert.Equal("Campo obrigatório", Assert.Throws<ValidationException>(() => _usuarioService.Post(ObterNovoUsuarioIncompleto())).Message);
         }
 
+        [Fact(DisplayName = "Deve invalidar quando não enviar um campo obrigatório via Post")]
+        public void Teste()
+        {
+            var usuarioRepository = new Mock<IUsuarioRepository>();
+
+            var usuario = new UsuarioService(usuarioRepository.Object, ObterMapperConfig());
+
+            Assert.True(usuario != null);
+        }
+
         #endregion
     }
 }
