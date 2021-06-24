@@ -31,11 +31,6 @@ namespace PortalNoticias.Services.Services
 
         #endregion
 
-        #region Métodos Privados
-        private UsuarioViewModel RetornaUsuarioViewModel(Usuario usuario) => _mapper.Map<UsuarioViewModel>(usuario);
-
-        #endregion
-
         #region Métodos Públicos
         public List<UsuarioViewModel> GetAll()
         {

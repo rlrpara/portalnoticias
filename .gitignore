@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 *.env
 /ResultTest/rlrpa_DESKTOP-IGUFH26_2021-06-20_23_56_43.trx
+/sonar.bat
