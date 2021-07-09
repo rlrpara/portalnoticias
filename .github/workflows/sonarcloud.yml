@@ -43,7 +43,7 @@ jobs:
         shell: powershell
         run: |
           dotnet build-server shutdown
-          dotnet add package coverlet.msbuild ./PortalNoticiasProject/PortalNoticias.Test/PortalNoticias.Test.csproj
+          dotnet add ./PortalNoticiasProject/PortalNoticias.Test/PortalNoticias.Test.csproj package coverlet.msbuild
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="**/*.coverage" /d:sonar.cs.vstest.reportsPaths="**.trx"
           dotnet restore
           dotnet build ./PortalNoticiasProject/PortalNoticiasProject.sln
