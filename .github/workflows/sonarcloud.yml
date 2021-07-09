@@ -50,20 +50,19 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           # Install dotnet tools to generate test report
-          dotnet tool install --global coverlet.console 
-          dotnet add ./PortalNoticiasProject/PortalNoticias.Test/PortalNoticias.Test.csproj package coverlet.msbuild
+          dotnet tool install --global dotnet-reportgenerator-globaltool
 
           # Start sonarqube process
           dotnet build-server shutdown
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/*.coveragexml" /d:sonar.cs.vstest.reportsPaths="**/*.trx"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="%CD%\TestResults\coverage.opencover.xml" /d:sonar.exclusions="/bin//,/obj//,/Migrations/" /d:sonar.coverage.exclusions=“test/**”
 
           # Build solution
-          dotnet restore
+          dotnet restore ./PortalNoticiasProject/PortalNoticiasProject.sln
           dotnet build ./PortalNoticiasProject/PortalNoticiasProject.sln
 
           # Running unit tests - 'opencover ' output format
-          dotnet test ./PortalNoticiasProject/PortalNoticiasProject.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover  /p:CoverletOutput=coverage /p:Exclude=[xunit.*]*
-          mv ./PortalNoticiasProject/PortalNoticias.Test/coverage.opencover.xml opencover.xml 
+          dotnet test ./PortalNoticiasProject/PortalNoticiasProject.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="%CD%/TestResults/"
+          reportgenerator -reports:"%CD%/TestResults/*.xml" -targetdir:./TestResults/Reports/ -reportTypes:“HTML;HTMLInline;Cobertura”
 
           # Send test report result to codeclimate
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
