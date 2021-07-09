@@ -51,7 +51,7 @@ jobs:
         run: |
           # Install dotnet tools to generate test report
           dotnet tool install --global coverlet.console 
-          dotnet add package coverlet.msbuild
+          dotnet add ./PortalNoticiasProject/PortalNoticias.Test/PortalNoticias.Test.csproj package coverlet.msbuild
 
           # Start sonarqube process
           dotnet build-server shutdown
