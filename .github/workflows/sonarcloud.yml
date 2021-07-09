@@ -45,5 +45,5 @@ jobs:
           dotnet test ./PortalNoticiasProject/PortalNoticiasProject.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           dotnet build-server shutdown
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.cs.opencover.reportsPaths="./**/*.opencover.xml"  /d:sonar.coverage.exclusions="**Test*.cs"
-          dotnet build
+          dotnet build ./PortalNoticiasProject/PortalNoticiasProject.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
