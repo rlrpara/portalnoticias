@@ -49,11 +49,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet test ./PortalNoticiasProject/PortalNoticiasProject.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
-          dotnet build-server shutdown
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="$(Agent.TempDirectory)/**/*.coveragexml" /d:sonar.cs.vstest.reportsPaths="$(Agent.TempDirectory)\**\*.trx"
-          dotnet build ./PortalNoticiasProject/PortalNoticiasProject.sln
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          # Install dotnet tools to generate test report
+          dotnet tool install --global coverlet.console 
+          dotnet add package coverlet.msbuild
 
-      - name: Build
-        run: dotnet build ./PortalNoticiasProject/PortalNoticiasProject.sln --configuration Release --no-restore
+          # Start sonarqube process
+          dotnet build-server shutdown
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/*.coveragexml" /d:sonar.cs.vstest.reportsPaths="$(Agent.TempDirectory)\**\*.trx"
+
+          # Build solution
+          dotnet restore
+          dotnet build ./PortalNoticiasProject/PortalNoticiasProject.sln
+
+          # Running unit tests - 'opencover ' output format
+          dotnet test ./PortalNoticiasProject/PortalNoticiasProject.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover  /p:CoverletOutput=coverage /p:Exclude=[xunit.*]*
+          mv ./MyProject.Tests/coverage.opencover.xml opencover.xml 
+
+          # Send test report result to codeclimate
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
