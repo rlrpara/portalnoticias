@@ -63,7 +63,7 @@ jobs:
 
           # Running unit tests - 'opencover ' output format
           dotnet test ./PortalNoticiasProject/PortalNoticiasProject.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover  /p:CoverletOutput=coverage /p:Exclude=[xunit.*]*
-          mv ./MyProject.Tests/coverage.opencover.xml opencover.xml 
+          mv ./PortalNoticiasProject/PortalNoticias.Test/coverage.opencover.xml opencover.xml 
 
           # Send test report result to codeclimate
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
