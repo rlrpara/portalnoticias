@@ -44,8 +44,9 @@ jobs:
         run: |
           dotnet build-server shutdown
           dotnet add ./PortalNoticiasProject/PortalNoticias.Test/PortalNoticias.Test.csproj package coverlet.msbuild
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="**/*.coverage" /d:sonar.cs.vstest.reportsPaths="**.trx"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rlrpara_portalnoticias" /o:"rlrpara" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.host.url="https://sonarcloud.io"  /d:sonar.cs.opencover.reportsPaths="**/*opencover.xml"
           dotnet restore
           dotnet build ./PortalNoticiasProject/PortalNoticiasProject.sln
           dotnet test ./PortalNoticiasProject/PortalNoticiasProject.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover  /p:CoverletOutput=coverage /p:Exclude=[xunit.*]*
+          mv ./MyProject.Tests/coverage.opencover.xml opencover.xml 
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
