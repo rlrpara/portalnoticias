@@ -7,7 +7,7 @@ namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
 {
     public class UserServicesTestBase
     {
-        public UsuarioViewModel ObterNovoUsuario() => new()
+        public UsuarioViewModel ObterNovoUsuario() => new UsuarioViewModel()
         {
             Nome = "Rodrigo Ribeiro",
             Email = "rlr.para@gmail.com",
@@ -16,7 +16,7 @@ namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
             isDelete = false
         };
 
-        public UsuarioViewModel ObterNovoUsuarioIncompleto() => new()
+        public UsuarioViewModel ObterNovoUsuarioIncompleto() => new UsuarioViewModel()
         {
             Nome = "Rodrigo Ribeiro"
         };
@@ -39,7 +39,7 @@ namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
             };
         }
 
-        public Usuario ObterUsuario1() => new()
+        public Usuario ObterUsuario1() => new Usuario()
         {
             Codigo = 1,
             Nome = "Rodrigo Ribeiro",
@@ -51,7 +51,7 @@ namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
             IsDelete = false
         };
 
-        public Usuario ObterUsuarioNulo() => new()
+        public Usuario ObterUsuarioNulo() => new Usuario()
         {
             Nome = "Rodrigo Ribeiro",
             Email = "rlr.para@gmail.com",

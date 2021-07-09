@@ -70,16 +70,16 @@ namespace PortalNoticias.Infra.Data.Context
             if (!EhBrancoNulo(atributo?.Name ?? "") && (valor != null) && !valor.ToString().Contains("01/01/0001 12:00:00 AM") && !valor.ToString().Equals("0"))
             {
                 if (valor is DateTime)
-                    listaParametros.Add($"@{nome}", EhBrancoNulo(valor?.ToString() ?? "") ? null : Convert.ToDateTime(valor.ToString()).ToString("yyyy-MM-dd HH:mm:ss"), DbType.DateTime);
+                    listaParametros.Add($"@{nome}", Convert.ToDateTime(valor.ToString()).ToString("yyyy-MM-dd HH:mm:ss"), DbType.DateTime);
 
                 else if (valor is bool)
-                    listaParametros.Add($"@{nome}", EhBrancoNulo(valor?.ToString() ?? "") ? null : Convert.ToBoolean(valor), DbType.Boolean);
+                    listaParametros.Add($"@{nome}", Convert.ToBoolean(valor), DbType.Boolean);
 
                 else if (valor is Int32)
-                    listaParametros.Add($"@{nome}", EhBrancoNulo(valor?.ToString() ?? "") ? null : Convert.ToInt32(valor), DbType.Int32);
+                    listaParametros.Add($"@{nome}", Convert.ToInt32(valor), DbType.Int32);
 
                 else if (valor is string)
-                    listaParametros.Add($"@{nome}", EhBrancoNulo(valor?.ToString() ?? "") ? null : valor?.ToString(), DbType.String);
+                    listaParametros.Add($"@{nome}", EhBrancoNulo(valor.ToString()) ? null : valor?.ToString(), DbType.String);
             }
             return listaParametros;
         }
