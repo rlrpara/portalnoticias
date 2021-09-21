@@ -1,216 +1,55 @@
-﻿using Dapper;
-using Dapper.Contrib.Extensions;
+﻿using Dommel;
+using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
 using PortalNoticias.Infra.Data.Context;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace PortalNoticias.Infra.Data.Repositories
 {
-    public class BaseRepository : IDisposable, IBaseRepository
+    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : EntityBase
     {
-        #region Propriedades Privadas
-        private IDbTransaction sqlTransaction;
-        public IDbConnection Conexao { get; private set; }
-        #endregion
+        private readonly IDbConnection conexao;
 
-        #region Construtores
         public BaseRepository()
         {
-            Conexao = ConnectionConfiguration.ObterConexao();
-            sqlTransaction = Conexao.BeginTransaction();
+            conexao = ConnectionConfiguration.ObterConexao();
         }
-        #endregion
 
-        #region Métodos Privados
-        private static string ObterNomeTabela<T>()
+        public virtual bool Delete(int id)
         {
-            SqlMapperExtensions.TableNameMapper = TableNameMapper;
-            return TableNameMapper(typeof(T));
+            var entity = GetById(id);
+
+            if (entity == null)
+                throw new Exception("Registro não encontrado");
+
+            conexao.Open();
+            return conexao.Delete(id);
         }
-        private static string TableNameMapper(Type type)
+
+        public virtual IEnumerable<TEntity> GetAll()
         {
-            dynamic tableattr = type.GetCustomAttributes(false).SingleOrDefault(attr => attr.GetType().Name == "TableAttribute");
-            return (tableattr != null ? tableattr.Name : string.Empty);
+            conexao.Open();
+            return conexao.GetAll<TEntity>();
         }
-        #endregion
 
-        #region Métodos Públicos
-        public void OpenConnection()
+        public virtual TEntity GetById(int id)
         {
-            CloseConnection();
-
-            if (Conexao.State == ConnectionState.Closed && Conexao.State != ConnectionState.Open)
-                Conexao.Open();
+            conexao.Open();
+            return conexao.Get<TEntity>(id);
         }
-        public void CloseConnection()
+
+        public virtual bool Insert(TEntity entity)
         {
-            if (Conexao.State == ConnectionState.Open && Conexao.State != ConnectionState.Closed)
-                Conexao.Close();
+            conexao.Open();
+            return conexao.Insert(entity) != null;
         }
-        public int Adicionar<T>(T entidade) where T : class
+
+        public bool Update(TEntity entity)
         {
-            try
-            {
-                OpenConnection();
-                return Conexao.Execute(GeradorDapper.RetornaInsert<T>(), GeradorDapper.ObterParametros(entidade));
-            }
-            catch
-            {
-                return default(dynamic);
-            }
+            conexao.Open();
+            return conexao.Update<TEntity>(entity);
         }
-
-        public int Atualizar<T>(int id, T entidade) where T : class
-        {
-            try
-            {
-                OpenConnection();
-                return Conexao.Execute(GeradorDapper.RetornaUpdate(id, entidade), GeradorDapper.ObterParametros(entidade));
-            }
-            catch
-            {
-                return default(dynamic);
-            }
-        }
-
-        public long BuscaMaxItemAsync<T>(string campo, string sqlWhere) where T : class
-        {
-            try
-            {
-                OpenConnection();
-                var sqlPesquisa = new StringBuilder()
-                    .AppendLine($"SELECT ISNULL(MAX({campo}),0) AS MAX")
-                    .AppendLine($"FROM {ObterNomeTabela<T>()}")
-                    .AppendLine($"WHERE {sqlWhere}");
-
-                return SqlMapper.QueryFirstOrDefault<long>(Conexao, sqlPesquisa.ToString(), transaction: sqlTransaction) + 1;
-            }
-            catch
-            {
-                return default(dynamic);
-            }
-        }
-
-        public T BuscarComJoins<T>(string sqlWhere = null, string join = null, params string[] fields)
-        {
-            try
-            {
-                OpenConnection();
-                var sqlPesquisa = new StringBuilder()
-                    .AppendLine($"SELECT {string.Join(", ", fields)}")
-                    .AppendLine($"FROM {ObterNomeTabela<T>()} {join} {sqlWhere}");
-
-                return SqlMapper.QueryFirstOrDefault<T>(Conexao, sqlPesquisa.ToString(), null, transaction: sqlTransaction, 80000000);
-            }
-            catch
-            {
-                return default(dynamic);
-            }
-        }
-
-        public T BuscarPorQuery<T>(string query)
-        {
-            try
-            {
-                OpenConnection();
-                return Conexao.QueryFirstOrDefault<T>(query, transaction: sqlTransaction, commandTimeout: 80000000, commandType: CommandType.Text);
-            }
-            catch
-            {
-                return default(dynamic);
-            }
-        }
-
-        public T BuscarTodosPorId<T>(int id) where T : class
-        {
-            try
-            {
-                OpenConnection();
-                return Conexao.QueryFirstOrDefault<T>($"{GeradorDapper.RetornaSelect<T>()} {GeradorDapper.ObterId<T>(id)}", transaction: sqlTransaction, commandTimeout: 80000000, commandType: CommandType.Text);
-            }
-            catch
-            {
-                return default(dynamic);
-            }
-        }
-
-        public IEnumerable<T> BuscarTodosPorQuery<T>(string query = null) where T : class
-        {
-            try
-            {
-                OpenConnection();
-                var sqlPesquisa = new StringBuilder();
-
-                if (string.IsNullOrEmpty(query))
-                    sqlPesquisa.AppendLine($"{GeradorDapper.RetornaSelect<T>()}");
-                else
-                    sqlPesquisa.AppendLine(query.Trim());
-
-                return Conexao.Query<T>(sqlPesquisa.ToString(), transaction: sqlTransaction, commandTimeout: 80000000, commandType: CommandType.Text);
-            }
-            catch
-            {
-                return default(dynamic);
-            }
-        }
-
-        public IEnumerable<T> BuscarTodosPorQueryGerador<T>(string sqlWhere = "") where T : class
-        {
-            try
-            {
-                OpenConnection();
-                var sqlPesquisa = new StringBuilder();
-
-                sqlPesquisa.AppendLine($"{GeradorDapper.RetornaSelect<T>()}");
-                if (!string.IsNullOrEmpty(sqlWhere)) sqlPesquisa.AppendLine(sqlWhere);
-
-                return Conexao.Query<T>(sqlPesquisa.ToString(), transaction: sqlTransaction, commandTimeout: 80000000, commandType: CommandType.Text).ToList();
-            }
-            catch
-            {
-                return default(dynamic);
-            }
-        }
-
-        public int Excluir<T>(int id) where T : class
-        {
-            try
-            {
-                OpenConnection();
-                return Conexao.Execute($"{GeradorDapper.RetornaDelete<T>()} {GeradorDapper.ObterId<T>(id)}");
-            }
-            catch
-            {
-                return default(dynamic);
-            }
-        }
-
-        public void ExecutarComando(string comandoSql)
-        {
-            if (string.IsNullOrEmpty(comandoSql.Trim())) return;
-
-            OpenConnection();
-            var comando = Conexao.CreateCommand();
-            comando.Connection = Conexao;
-            comando.CommandText = comandoSql.Trim();
-            comando.CommandTimeout = 0;
-            comando.ExecuteNonQuery();
-        }
-
-        public void ExecutarComandoDireto(CommandDefinition command)
-        {
-            Conexao.Execute(command);
-        }
-
-        public virtual void Dispose()
-        {
-            CloseConnection();
-            Conexao.Dispose();
-        }
-        #endregion
     }
 }

@@ -1,23 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PortalNoticias.Infra.CrossCutting.Auth.Services;
+using PortalNoticias.Domain.Entities;
 using PortalNoticias.Services.Interfaces;
 using PortalNoticias.Services.ViewModels;
 using System;
 using System.Linq;
-using System.Security.Claims;
 
 namespace PortalNoticias.Api.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize]
-    public class UsuarioController : ControllerBase
+    [ApiController]
+    public class CategoriaController : ControllerBase
     {
-        private readonly IUsuarioService _usuarioService;
+        private readonly IBaseService<Categoria> _service;
 
-        public UsuarioController(IUsuarioService usuarioService)
+        public CategoriaController(IBaseService<Categoria> service)
         {
-            _usuarioService = usuarioService;
+            _service = service;
         }
 
         [HttpGet]
@@ -25,7 +24,7 @@ namespace PortalNoticias.Api.Controllers
         {
             try
             {
-                return Ok(_usuarioService.GetAll());
+                return Ok(_service.GetAll());
             }
             catch (Exception ex)
             {
@@ -34,11 +33,11 @@ namespace PortalNoticias.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetId(string id)
+        public IActionResult GetId(int id)
         {
             try
             {
-                return Ok(_usuarioService.GetById(id));
+                return Ok(_service.GetById(id));
             }
             catch (Exception ex)
             {
@@ -47,12 +46,12 @@ namespace PortalNoticias.Api.Controllers
         }
 
         [HttpPost, AllowAnonymous]
-        public IActionResult Post([FromBody] UsuarioViewModel entidade)
+        public IActionResult Post([FromBody] CategoriaViewModel entidade)
         {
             try
             {
                 if (ModelState.IsValid)
-                    return Created($"api/{RouteData.Values.First().Value}", _usuarioService.Post(entidade));
+                    return Created($"api/{RouteData.Values.First().Value}", _service.Insert(entidade));
 
                 return BadRequest($"Classe inválida: {ModelState}");
             }
@@ -69,10 +68,10 @@ namespace PortalNoticias.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (_usuarioService.GetById(entidade.Codigo.ToString()) == null)
+                    if (_service.GetById(entidade.Codigo.ToString()) == null)
                         return NotFound();
 
-                    return Ok(_usuarioService.Put(entidade));
+                    return Ok(_service.Put(entidade));
                 }
 
                 return BadRequest("Classe inválida");
@@ -90,10 +89,10 @@ namespace PortalNoticias.Api.Controllers
             {
                 int usuarioLogadoId = int.Parse(TokenService.GetValueFromClaim(HttpContext.User.Identity, ClaimTypes.NameIdentifier));
 
-                if (_usuarioService.GetById(usuarioLogadoId.ToString()) == null)
+                if (_service.GetById(usuarioLogadoId.ToString()) == null)
                     return NotFound();
 
-                return Ok(_usuarioService.Delete(usuarioLogadoId.ToString()));
+                return Ok(_service.Delete(usuarioLogadoId.ToString()));
             }
             catch (Exception ex)
             {
@@ -106,7 +105,7 @@ namespace PortalNoticias.Api.Controllers
         {
             try
             {
-                return Ok(_usuarioService.Authenticate(entidade));
+                return Ok(_service.Authenticate(entidade));
             }
             catch (Exception ex)
             {

@@ -1,12 +1,7 @@
-﻿using PortalNoticias.Domain.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace PortalNoticias.Domain.Entities
+﻿namespace PortalNoticias.Domain.Entities
 {
-    [Table("Municipio")]
-    public class Municipio : Entity
+    public class Municipio : EntityBase
     {
-        [Column(name: "NOME", Order = 2)]
         public string Nome { get; set; }
     }
 }

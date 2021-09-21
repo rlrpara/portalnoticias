@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using PortalNoticias.Infra.CrossCutting.Auth.Models;
 using PortalNoticias.Infra.CrossCutting.IoC;
 using PortalNoticias.Infra.CrossCutting.Swagger;
+using PortalNoticias.Infra.Data;
 using PortalNoticias.Services.AutoMapper;
 using System.Reflection;
 using System.Text;
@@ -29,6 +30,7 @@ namespace PortalNoticias.Api
 
             services.AddControllers();
             NativeInjector.RegisterServices(services, Configuration);
+            RegisterMappings.Register();
             services.AddAutoMapper(typeof(AutoMapperSetup));
             services.AddSwaggerConfiguration(swaggerName);
 

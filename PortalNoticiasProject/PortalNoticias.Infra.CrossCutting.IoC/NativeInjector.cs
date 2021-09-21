@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PortalNoticias.Services.Interfaces;
-using PortalNoticias.Services.Services;
+using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
 using PortalNoticias.Infra.Data.Repositories;
+using PortalNoticias.Services.Interfaces;
+using System;
 
 namespace PortalNoticias.Infra.CrossCutting.IoC
 {
@@ -13,24 +14,19 @@ namespace PortalNoticias.Infra.CrossCutting.IoC
         {
             services.AddSingleton(configuration);
             #region Services
-            services.AddTransient<ICategoriaService, CategoriaService>();
-            services.AddTransient<IMateriaService, MateriaService>();
-            services.AddTransient<IMunicipioService, MunicipioService>();
-            services.AddTransient<IPerfilUsuarioService, PerfilUsuarioService>();
-            services.AddTransient<IPerfilUsuarioPermissaoService, PerfilUsuarioPermissaoService>();
-            services.AddTransient<IUsuarioService, UsuarioService>();
+            services.AddTransient<IBaseService<Categoria>>();
 
             #endregion
 
             #region Repositories
-            services.AddTransient<ICategoriaRepository, CategoriaRepository>();
-            services.AddTransient<IMateriaRepository, MateriaRepository>();
-            services.AddTransient<IMunicipioRepository, MunicipioRepository>();
-            services.AddTransient<IPerfilUsuarioRepository, PerfilUsuarioRepository>();
-            services.AddTransient<IPerfilUsuarioPermissaoRepository, PerfilUsuarioPermissaoRepository>();
-            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<IBaseRepository<Categoria>, CategoriaRepository>();
 
             #endregion
+        }
+
+        private static void BaseService<T>()
+        {
+            throw new NotImplementedException();
         }
     }
 }

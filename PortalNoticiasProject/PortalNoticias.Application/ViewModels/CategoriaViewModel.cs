@@ -1,6 +1,6 @@
-﻿namespace PortalNoticias.Domain.Entities
+﻿namespace PortalNoticias.Services.ViewModels
 {
-    public class Categoria : EntityBase
+    public class CategoriaViewModel : EntityBase
     {
         public string Nome { get; set; }
         public string CodigoMunicipio { get; set; }

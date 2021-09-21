@@ -1,20 +1,15 @@
-﻿using Dapper;
+﻿using PortalNoticias.Domain.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace PortalNoticias.Services.Interfaces
 {
-    public interface IBaseService
+    public interface IBaseService<TEntity> where TEntity : EntityBase
     {
-        T BuscarComJoins<T>(string sqlWhere = null, string join = null, params string[] fields);
-        T BuscarTodosPorId<T>(int id) where T : class;
-        T BuscarPorQuery<T>(string query);
-        IEnumerable<T> BuscarTodosPorQuery<T>(string query = "") where T : class;
-        IEnumerable<T> BuscarTodosPorQueryGerador<T>(string sqlWhere = "") where T : class;
-        int Adicionar<T>(T entidade) where T : class;
-        int Atualizar<T>(int id, T entidade) where T : class;
-        int Excluir<T>(int id) where T : class;
-        void ExecutarComando(string comandoSql);
-        void ExecutarComandoDireto(CommandDefinition command);
-        long BuscaMaxItemAsync<T>(string campo, string sqlWhere) where T : class;
+        IEnumerable<TEntity> GetAll();
+        TEntity GetById(int id);
+        void Insert(TEntity entity);
+        bool Update(TEntity entity);
+        bool Delete(Int32 id);
     }
 }

@@ -1,12 +1,8 @@
-﻿using PortalNoticias.Domain.Interfaces;
+﻿using PortalNoticias.Domain.Entities;
 
 namespace PortalNoticias.Infra.Data.Repositories
 {
-    public class CategoriaRepository : BaseRepository, ICategoriaRepository
+    public class CategoriaRepository : BaseRepository<Categoria>
     {
-        public CategoriaRepository()
-        {
-
-        }
     }
 }

@@ -15,7 +15,7 @@ namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
     public class UserServicesTest : UserServicesTestBase
     {
         #region Propriedades Privadas
-        private UsuarioService _usuarioService;
+        //private UsuarioService _usuarioService;
 
         #endregion
 
