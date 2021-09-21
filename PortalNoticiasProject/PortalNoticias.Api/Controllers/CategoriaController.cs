@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using PortalNoticias.Domain.Entities;
 using PortalNoticias.Services.Interfaces;
+using PortalNoticias.Services.Services;
 using PortalNoticias.Services.ViewModels;
 using System;
 using System.Linq;
+using System.Security.Claims;
 
 namespace PortalNoticias.Api.Controllers
 {
@@ -12,9 +14,9 @@ namespace PortalNoticias.Api.Controllers
     [ApiController]
     public class CategoriaController : ControllerBase
     {
-        private readonly IBaseService<Categoria> _service;
+        private readonly CategoriaService _service;
 
-        public CategoriaController(IBaseService<Categoria> service)
+        public CategoriaController(CategoriaService service)
         {
             _service = service;
         }
@@ -51,7 +53,7 @@ namespace PortalNoticias.Api.Controllers
             try
             {
                 if (ModelState.IsValid)
-                    return Created($"api/{RouteData.Values.First().Value}", _service.Insert(entidade));
+                    return Created($"api/{RouteData.Values.First().Value}", _service.Inserir(entidade));
 
                 return BadRequest($"Classe inválida: {ModelState}");
             }
@@ -68,10 +70,10 @@ namespace PortalNoticias.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (_service.GetById(entidade.Codigo.ToString()) == null)
+                    if (_service.GetById(entidade.Codigo) == null)
                         return NotFound();
 
-                    return Ok(_service.Put(entidade));
+                    return Ok(_service.Atualizar(entidade));
                 }
 
                 return BadRequest("Classe inválida");
@@ -82,17 +84,15 @@ namespace PortalNoticias.Api.Controllers
             }
         }
 
-        [HttpDelete]
-        public IActionResult Delete()
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
             try
             {
-                int usuarioLogadoId = int.Parse(TokenService.GetValueFromClaim(HttpContext.User.Identity, ClaimTypes.NameIdentifier));
-
-                if (_service.GetById(usuarioLogadoId.ToString()) == null)
+                if (_service.GetById(id) == null)
                     return NotFound();
 
-                return Ok(_service.Delete(usuarioLogadoId.ToString()));
+                return Ok(_service.Delete(id))
             }
             catch (Exception ex)
             {

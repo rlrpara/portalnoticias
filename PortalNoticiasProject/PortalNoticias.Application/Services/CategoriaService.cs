@@ -2,6 +2,7 @@
 using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
 using PortalNoticias.Services.ViewModels;
+using System;
 
 namespace PortalNoticias.Services.Services
 {
@@ -16,9 +17,14 @@ namespace PortalNoticias.Services.Services
             _mapper = mapper;
         }
 
-        public override bool Insert(CategoriaViewModel entity)
+        public bool Inserir(CategoriaViewModel entity)
         {
             return _repository.Insert(_mapper.Map<Categoria>(entity));
+        }
+
+        public bool Atualizar(UsuarioViewModel entity)
+        {
+            return _repository.Update(_mapper.Map<Categoria>(entity));
         }
     }
 }
