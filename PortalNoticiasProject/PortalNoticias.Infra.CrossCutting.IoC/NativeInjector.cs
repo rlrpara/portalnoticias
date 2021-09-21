@@ -4,7 +4,7 @@ using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
 using PortalNoticias.Infra.Data.Repositories;
 using PortalNoticias.Services.Interfaces;
-using System;
+using PortalNoticias.Services.Services;
 
 namespace PortalNoticias.Infra.CrossCutting.IoC
 {
@@ -14,7 +14,7 @@ namespace PortalNoticias.Infra.CrossCutting.IoC
         {
             services.AddSingleton(configuration);
             #region Services
-            services.AddTransient<IBaseService<Categoria>>();
+            services.AddTransient<IBaseService<Categoria>, CategoriaService>();
 
             #endregion
 
@@ -22,11 +22,6 @@ namespace PortalNoticias.Infra.CrossCutting.IoC
             services.AddTransient<IBaseRepository<Categoria>, CategoriaRepository>();
 
             #endregion
-        }
-
-        private static void BaseService<T>()
-        {
-            throw new NotImplementedException();
         }
     }
 }

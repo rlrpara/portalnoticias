@@ -10,6 +10,7 @@ namespace PortalNoticias.Infra.CrossCutting.Swagger
     {
         public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services, string swaggerName)
         {
+            var site = Environment.GetEnvironmentVariable("URL_SITE");
             return services.AddSwaggerGen(x => {
                 x.SwaggerDoc("v1", new OpenApiInfo
                 { 
@@ -19,8 +20,7 @@ namespace PortalNoticias.Infra.CrossCutting.Swagger
                     Contact = new OpenApiContact
                     {
                         Name = "Rodrigo de L. Ribeiro",
-                        Email = "rlr.para@gmail.com",
-                        Url = new Uri(Environment.GetEnvironmentVariable("URL_SITE"))
+                        Email = "rlr.para@gmail.com"
                     }
                 });
 

@@ -1,10 +1,11 @@
 ﻿using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
+using PortalNoticias.Services.Interfaces;
 using System.Collections.Generic;
 
 namespace PortalNoticias.Services.Services
 {
-    public abstract class BaseService<TEntity> : IBaseRepository<TEntity> where TEntity : EntityBase
+    public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : EntityBase
     {
         public readonly IBaseRepository<TEntity> _baseRepository;
 

@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PortalNoticias.Domain.Entities;
-using PortalNoticias.Services.Interfaces;
 using PortalNoticias.Services.Services;
 using PortalNoticias.Services.ViewModels;
 using System;
 using System.Linq;
-using System.Security.Claims;
 
 namespace PortalNoticias.Api.Controllers
 {
@@ -22,7 +19,7 @@ namespace PortalNoticias.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetAll()
         {
             try
             {
@@ -92,20 +89,7 @@ namespace PortalNoticias.Api.Controllers
                 if (_service.GetById(id) == null)
                     return NotFound();
 
-                return Ok(_service.Delete(id))
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.ToString());
-            }
-        }
-
-        [HttpPost("authenticate"), AllowAnonymous]
-        public IActionResult Authenticate([FromBody] UserAuthenticateRequestViewModel entidade)
-        {
-            try
-            {
-                return Ok(_service.Authenticate(entidade));
+                return Ok(_service.Delete(id));
             }
             catch (Exception ex)
             {

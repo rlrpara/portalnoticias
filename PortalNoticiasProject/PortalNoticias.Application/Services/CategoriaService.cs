@@ -2,7 +2,6 @@
 using PortalNoticias.Domain.Entities;
 using PortalNoticias.Domain.Interfaces;
 using PortalNoticias.Services.ViewModels;
-using System;
 
 namespace PortalNoticias.Services.Services
 {

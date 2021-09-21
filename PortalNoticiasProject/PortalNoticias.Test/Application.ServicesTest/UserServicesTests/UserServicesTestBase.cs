@@ -32,9 +32,9 @@ namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
                     Email = "rlr.para@gmail.com",
                     Senha = "12345",
                     CodigoPerfil = 2,
-                    DataCriado = DateTime.Now,
+                    DataCadastro = DateTime.Now,
                     DataAtualizacao = DateTime.Now,
-                    IsDelete = false
+                    Removido = false
                 }
             };
         }
@@ -46,9 +46,9 @@ namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
             Email = "rlr.para@gmail.com",
             Senha = "12345",
             CodigoPerfil = 2,
-            DataCriado = DateTime.Now,
+            DataCadastro = DateTime.Now,
             DataAtualizacao = DateTime.Now,
-            IsDelete = false
+            Removido = false
         };
 
         public Usuario ObterUsuarioNulo() => new Usuario()
@@ -57,9 +57,9 @@ namespace PortalNoticias.Test.Application.ServicesTest.UserServicesTests
             Email = "rlr.para@gmail.com",
             Senha = "12345",
             CodigoPerfil = 2,
-            DataCriado = DateTime.Now,
+            DataCadastro = DateTime.Now,
             DataAtualizacao = DateTime.Now,
-            IsDelete = false
+            Removido = false
         };
     }
 }

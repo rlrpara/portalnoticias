@@ -8,7 +8,7 @@ namespace PortalNoticias.Services.Interfaces
     {
         IEnumerable<TEntity> GetAll();
         TEntity GetById(int id);
-        void Insert(TEntity entity);
+        bool Insert(TEntity entity);
         bool Update(TEntity entity);
         bool Delete(Int32 id);
     }
